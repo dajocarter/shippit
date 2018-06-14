@@ -39,7 +39,9 @@ const Header = props => (
       </NavItem>
       <NavItem>
         {props.authed ? (
-          <LogoutButton onClick={props.logout}>Logout</LogoutButton>
+          <Navbar.Brand>
+            <LogoutButton onClick={props.logout}>Logout</LogoutButton>
+          </Navbar.Brand>
         ) : (
           <span>
             <Navbar.Brand>
