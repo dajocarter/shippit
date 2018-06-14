@@ -7,6 +7,7 @@ import Register from "./forms/Register";
 import Home from "./Home";
 import Dashboard from "./protected/Dashboard";
 import Header from "./partials/Header";
+import Loading from "../components/Loading";
 import { auth } from "../utils/firebase";
 
 function PrivateRoute({ component: Component, authed, ...rest }) {
@@ -70,7 +71,7 @@ export default class App extends Component {
 
   render() {
     return this.state.loading === true ? (
-      <h1>Loading...</h1>
+      <Loading />
     ) : (
       <BrowserRouter>
         <div>
