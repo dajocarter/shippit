@@ -15,12 +15,15 @@ export default class Register extends Component {
     e.preventDefault();
     auth()
       .createUserWithEmailAndPassword(this.email.value, this.password.value)
-      .then(({ user }) => {
-        console.log(`User created`, user);
-        database()
+      .then(({ user: { email, uid } }) => {
+        console.log(`User created`);
+
+        const usersRef = database()
           .ref("users")
-          .child(user.uid)
-          .set({ email: user.email, uid: user.uid })
+          .child(uid);
+
+        usersRef
+          .set({ email })
           .then(() => {
             console.log("user added to database");
           })
