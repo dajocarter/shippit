@@ -1,6 +1,7 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import Icon from "react-icons/lib/fa/spinner";
+import Icon from "@fortawesome/react-fontawesome";
+import faSpinner from "@fortawesome/fontawesome-pro-solid/faSpinner";
 
 const rotate = keyframes`
   from {
@@ -28,7 +29,7 @@ const Spinner = styled(Icon)`
 const Loading = () => {
   return (
     <PageWrap>
-      <Spinner />
+      <Spinner icon={faSpinner} />
     </PageWrap>
   );
 };
