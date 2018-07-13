@@ -6,6 +6,7 @@ import Login from "./forms/Login";
 import Register from "./forms/Register";
 import Home from "./Home";
 import Dashboard from "./protected/Dashboard";
+import EditBox from "../components/forms/EditBox";
 import Header from "./partials/Header";
 import Loading from "../components/Loading";
 import { auth } from "../utils/firebase";
@@ -92,6 +93,10 @@ export default class App extends Component {
                 />
                 <PrivateRoute
                   authed={this.state.authed}
+                  uid={this.state.uid}
+                  path="/edit/box/:boxId"
+                  component={EditBox}
+                />
                   path="/dashboard"
                   component={Dashboard}
                 />
