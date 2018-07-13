@@ -17,7 +17,7 @@ function PrivateRoute({ component: Component, authed, ...rest }) {
       {...rest}
       render={props =>
         authed === true ? (
-          <Component {...props} />
+          <Component {...props} {...rest} />
         ) : (
           <Redirect
             to={{ pathname: "/login", state: { from: props.location } }}
@@ -51,11 +51,13 @@ export default class App extends Component {
       if (currentUser) {
         this.setState({
           authed: true,
+          uid: currentUser.uid,
           loading: false
         });
       } else {
         this.setState({
           authed: false,
+          uid: null,
           loading: false
         });
       }
@@ -97,6 +99,9 @@ export default class App extends Component {
                   path="/edit/box/:boxId"
                   component={EditBox}
                 />
+                <PrivateRoute
+                  authed={this.state.authed}
+                  uid={this.state.uid}
                   path="/dashboard"
                   component={Dashboard}
                 />
