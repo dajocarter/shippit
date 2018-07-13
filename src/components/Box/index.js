@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import { faBoxOpen } from "@fortawesome/fontawesome-pro-light";
@@ -86,6 +86,7 @@ const ActionLink = styled(Link)`
 
 export default class Box extends Component {
   createBox = e => {
+    e.preventDefault();
     const db = database().ref();
     const boxData = {
       name: "Unnamed Box",
