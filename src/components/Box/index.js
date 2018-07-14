@@ -89,7 +89,7 @@ export default class Box extends Component {
 
   createBox = e => {
     e.preventDefault();
-    const db = database().ref();
+    const db = database().ref(`boxes`);
     const boxData = {
       name: "Unnamed Box",
       height: 0,
@@ -97,8 +97,8 @@ export default class Box extends Component {
       width: 0,
       user: this.props.uid
     };
-    const boxKey = db.child("boxes").push().key;
-    db.child(`boxes/${this.props.uid}/boxes/${boxKey}`)
+    const boxKey = db.push().key;
+    db.child(`${this.props.uid}/${boxKey}`)
       .update(boxData)
       .then(() => this.setState({ editBox: boxKey }));
   };

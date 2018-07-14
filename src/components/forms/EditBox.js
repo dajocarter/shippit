@@ -49,7 +49,7 @@ export default class EditBox extends Component {
     };
 
     db.ref(`boxes`)
-      .child(`boxes/${this.props.uid}/${this.props.match.params.boxId}`)
+      .child(`${this.props.uid}/${this.props.match.params.boxId}`)
       .update(boxData)
       .then(() => this.setState({ toDashboard: true }));
     if (this.file.files.length) {
