@@ -19,14 +19,13 @@ const Container = styled.div`
 
 const BoxImage = styled.img`
   height: auto;
-  width: auto;
+  width: 200px;
   flex: 0 0 auto;
-  max-width: 200px;
 `;
 
 const PlaceHolder = styled.div`
   flex: 0 0 auto;
-  width: 150px;
+  width: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
