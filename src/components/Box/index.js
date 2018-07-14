@@ -34,6 +34,7 @@ const PlaceHolder = styled.div`
 
 const FAicon = styled(FontAwesomeIcon)`
   font-size: 7.5rem;
+  color: ${props => props.color};
 `;
 
 const BoxContent = styled.div`
@@ -138,7 +139,10 @@ export default class Box extends Component {
           <BoxImage src={box.image} alt={box.name} />
         ) : (
           <PlaceHolder>
-            <FAicon icon={box.closed ? faBoxCheck : faBoxOpen} />
+            <FAicon
+              icon={box.closed ? faBoxCheck : faBoxOpen}
+              color={box.closed ? `green` : `blue`}
+            />
           </PlaceHolder>
         )}
         <BoxContent>
