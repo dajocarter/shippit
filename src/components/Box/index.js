@@ -15,6 +15,7 @@ const Container = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 3px;
   box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px;
+  margin-bottom: 2rem;
 `;
 
 const BoxImage = styled.img`
