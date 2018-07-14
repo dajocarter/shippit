@@ -12,7 +12,7 @@ export default class Dashboard extends Component {
 
   componentDidMount() {
     const db = database().ref(`boxes`);
-    const userBoxesRef = db.child(`${this.props.uid}`);
+    const userBoxesRef = db.child(`${this.props.uid}`).orderByChild("closed");
     userBoxesRef.on("value", boxesSnapshot => {
       let boxes = [];
       if (boxesSnapshot.exists()) {
