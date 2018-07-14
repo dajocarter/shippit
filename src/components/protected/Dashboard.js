@@ -67,7 +67,7 @@ export default class Dashboard extends Component {
             {this.state.boxes.map(box => <Box key={box.key} box={box} />)}
           </div>
         ) : (
-          <Box uid={this.props.uid} history={this.props.history} />
+          <Box uid={this.props.uid} />
         )}
       </Col>
     );
