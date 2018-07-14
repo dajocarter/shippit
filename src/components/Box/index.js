@@ -122,10 +122,8 @@ export default class Box extends Component {
   deleteBox = (boxKey, e) => {
     e.preventDefault();
     const db = database().ref(`boxes`);
-    console.log(this.props.uid);
     db.child(`${this.props.uid}/${boxKey}`)
       .remove()
-      .then(() => console.log(`removed box`))
       .catch(error => console.log(error));
   };
 
