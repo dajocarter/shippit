@@ -58,7 +58,8 @@ export default class AddBox extends Component {
       name: "Unnamed Box",
       height: 0,
       length: 0,
-      width: 0
+      width: 0,
+      closed: false
     };
     const boxKey = db.push().key;
     db.child(`${this.props.uid}/${boxKey}`)
