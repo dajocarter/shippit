@@ -154,20 +154,35 @@ export default class Box extends Component {
             </BoxDetails>
           </BoxInfo>
           {box.key ? (
-            <BoxActions>
-              <Action onClick={e => this.closeBox(box.key, e)}>
-                Close Box
-              </Action>
-              <Action>
-                <ActionLink to={`edit/box/${box.key}`}>Edit Box</ActionLink>
-              </Action>
-              <Action>
-                <ActionLink to={`edit/item/${box.key}`}>Edit Items</ActionLink>
-              </Action>
-              <Action onClick={e => this.deleteBox(box.key, e)}>
-                Delete Box
-              </Action>
-            </BoxActions>
+            <div>
+              {box.closed ? (
+                <BoxActions>
+                  <Action onClick={e => this.openBox(box.key, e)}>
+                    Open Box
+                  </Action>
+                  <Action onClick={e => this.deleteBox(box.key, e)}>
+                    Delete Box
+                  </Action>
+                </BoxActions>
+              ) : (
+                <BoxActions>
+                  <Action onClick={e => this.closeBox(box.key, e)}>
+                    Close Box
+                  </Action>
+                  <Action>
+                    <ActionLink to={`edit/box/${box.key}`}>Edit Box</ActionLink>
+                  </Action>
+                  <Action>
+                    <ActionLink to={`edit/item/${box.key}`}>
+                      Edit Items
+                    </ActionLink>
+                  </Action>
+                  <Action onClick={e => this.deleteBox(box.key, e)}>
+                    Delete Box
+                  </Action>
+                </BoxActions>
+              )}
+            </div>
           ) : (
             <BoxActions>
               <Action onClick={e => this.createBox(e)}>Start Packing</Action>
