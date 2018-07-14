@@ -39,8 +39,7 @@ const FAicon = styled(FontAwesomeIcon)`
 export default class Move extends Component {
   state = {
     boxes: 0,
-    items: 0,
-    cuFt: 0
+    items: 0
   };
   componentDidMount() {
     const db = database().ref(`boxes`);
