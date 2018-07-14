@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import styled from "styled-components";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import { faBoxOpen } from "@fortawesome/fontawesome-pro-light";
+import { faBoxCheck, faBoxOpen } from "@fortawesome/fontawesome-pro-light";
 import { database } from "../../utils/firebase";
 
 const Container = styled.div`
@@ -138,7 +138,7 @@ export default class Box extends Component {
           <BoxImage src={box.image} alt={box.name} />
         ) : (
           <PlaceHolder>
-            <FAicon icon={faBoxOpen} />
+            <FAicon icon={box.closed ? faBoxCheck : faBoxOpen} />
           </PlaceHolder>
         )}
         <BoxContent>
