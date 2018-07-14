@@ -118,7 +118,7 @@ export default class Box extends Component {
         )}
         <BoxContent>
           <BoxInfo>
-            <BoxTitle>{box.name || `Your First Box`}</BoxTitle>
+            <BoxTitle>{box.name || `Unnamed Box`}</BoxTitle>
             <BoxDetails>
               <Detail>{box.height || 0}"</Detail> H x{" "}
               <Detail>{box.width || 0}"</Detail> W x{" "}
