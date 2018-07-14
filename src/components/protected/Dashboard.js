@@ -5,6 +5,7 @@ import { Col } from "react-bootstrap";
 import Loading from "../Loading";
 import Box from "../Box";
 import Move from "../Move";
+import AddBox from "../AddBox";
 
 export default class Dashboard extends Component {
   state = { boxes: [], loading: true };
@@ -62,6 +63,7 @@ export default class Dashboard extends Component {
         <Move uid={this.props.uid} />
         {this.state.boxes.length ? (
           <div>
+            <AddBox uid={this.props.uid} />
             {this.state.boxes.map(box => <Box key={box.key} box={box} />)}
           </div>
         ) : (
