@@ -25,24 +25,10 @@ export default class Dashboard extends Component {
               boxes.push(boxData);
             })
             .then(() => {
-              if (boxes.length > 1) {
-                this.setState({
-                  boxes,
-                  loading: false
-                });
-              } else {
-                if (!!boxes[0].name) {
-                  this.setState({
-                    boxes,
-                    loading: false
-                  });
-                } else {
-                  this.setState({
-                    boxes,
-                    loading: false
-                  });
-                }
-              }
+              this.setState({
+                boxes,
+                loading: false
+              });
             })
             .catch(error => console.log(error));
         });
