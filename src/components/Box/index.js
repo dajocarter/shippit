@@ -102,6 +102,16 @@ export default class Box extends Component {
       .then(() => this.setState({ editBox: boxKey }));
   };
 
+  deleteBox = (boxKey, e) => {
+    e.preventDefault();
+    const db = database().ref(`boxes`);
+    console.log(this.props.uid);
+    db.child(`${this.props.uid}/${boxKey}`)
+      .remove()
+      .then(() => console.log(`removed box`))
+      .catch(error => console.log(error));
+  };
+
   render() {
     const { box } = this.props;
     if (this.state.editBox) {
