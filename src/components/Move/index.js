@@ -65,9 +65,9 @@ export default class Move extends Component {
     const boxesData = Array.from(this.state.boxes).reduce(
       (allBoxes, currentBox) => {
         allBoxes["totalBoxes"]++;
-        allBoxes["totalHeight"] += currentBox["height"];
-        allBoxes["totalLength"] += currentBox["length"];
-        allBoxes["totalWidth"] += currentBox["width"];
+        allBoxes["totalHeight"] += parseFloat(currentBox["height"]);
+        allBoxes["totalLength"] += parseFloat(currentBox["length"]);
+        allBoxes["totalWidth"] += parseFloat(currentBox["width"]);
         return allBoxes;
       },
       {
