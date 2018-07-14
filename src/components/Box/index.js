@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import styled from "styled-components";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import { faBoxOpen } from "@fortawesome/fontawesome-pro-light";
@@ -85,6 +85,8 @@ const ActionLink = styled(Link)`
 `;
 
 export default class Box extends Component {
+  state = { editBox: null };
+
   createBox = e => {
     e.preventDefault();
     const db = database().ref();
@@ -98,11 +100,14 @@ export default class Box extends Component {
     const boxKey = db.child("boxes").push().key;
     db.child(`boxes/${this.props.uid}/boxes/${boxKey}`)
       .update(boxData)
-      .then(() => this.props.history.push(`edit/box/${boxKey}`));
+      .then(() => this.setState({ editBox: boxKey }));
   };
 
   render() {
     const { box } = this.props;
+    if (this.state.editBox) {
+      return <Redirect to={`edit/box/${this.state.editBox}`} />;
+    }
     return (
       <Container>
         {box.image ? (
