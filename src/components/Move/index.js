@@ -43,7 +43,7 @@ export default class Move extends Component {
   };
   componentDidMount() {
     const db = database().ref(`boxes`);
-    db.child(`${this.props.uid}`).once("value", userSnapshot => {
+    db.child(`${this.props.uid}`).on("value", userSnapshot => {
       let boxes = [];
       userSnapshot.forEach(box => {
         const boxRef = db.child(`${this.props.uid}/${box.key}`);
