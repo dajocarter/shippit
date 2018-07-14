@@ -99,7 +99,7 @@ export default class Move extends Component {
                 (boxesData["totalHeight"] / 12) *
                 (boxesData["totalLength"] / 12) *
                 (boxesData["totalWidth"] / 12)
-              ).toFixed(4)}
+              ).toFixed(2)}
             </strong>{" "}
             ft<sup>3</sup>
           </Detail>
