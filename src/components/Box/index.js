@@ -130,7 +130,7 @@ export default class Box extends Component {
   };
 
   render() {
-    const { box } = this.props;
+    const { box = {} } = this.props;
     if (this.state.boxId) {
       return <Redirect to={`edit/box/${this.state.boxId}`} />;
     }
