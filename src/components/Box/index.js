@@ -184,12 +184,12 @@ export default class Box extends Component {
                     Close Box
                   </Action>
                   <Action>
-                    <ActionLink to={`edit/box/${box.key}`} color={`blue`}>
+                    <ActionLink to={`boxes/${box.key}`} color={`blue`}>
                       Edit Box
                     </ActionLink>
                   </Action>
                   <Action>
-                    <ActionLink to={`edit/item/${box.key}`} color={`blue`}>
+                    <ActionLink to={`boxes/${box.key}/items`} color={`blue`}>
                       Edit Items
                     </ActionLink>
                   </Action>
