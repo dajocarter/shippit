@@ -42,22 +42,29 @@ export default class Move extends Component {
     items: 0
   };
   componentDidMount() {
-    const db = database().ref(`boxes`);
-    db.child(`${this.props.uid}`).on("value", userSnapshot => {
-      let boxes = [];
-      userSnapshot.forEach(box => {
-        const boxRef = db.child(`${this.props.uid}/${box.key}`);
-        boxRef
-          .once("value", boxSnapshot => {
-            let boxData = boxSnapshot.val();
-            boxData["key"] = box.key;
-            boxes.push(boxData);
-          })
-          .then(() => {
-            this.setState({ boxes });
-          });
+    const db = database();
+    db.ref(`boxes`)
+      .child(`${this.props.uid}`)
+      .on("value", userSnapshot => {
+        let boxes = [];
+        userSnapshot.forEach(box => {
+          const boxRef = db.ref(`boxes`).child(`${this.props.uid}/${box.key}`);
+          boxRef
+            .once("value", boxSnapshot => {
+              let boxData = boxSnapshot.val();
+              boxData["key"] = box.key;
+              boxes.push(boxData);
+            })
+            .then(() => {
+              this.setState({ boxes });
+            });
+        });
       });
-    });
+    db.ref(`items`)
+      .child(`${this.props.uid}`)
+      .on("value", userSnapshot => {
+        this.setState({ numItems: userSnapshot.numChildren() });
+      });
   }
 
   render() {
@@ -71,7 +78,6 @@ export default class Move extends Component {
       },
       {
         totalBoxes: 0,
-        totalItems: 0,
         totalHeight: 0,
         totalLength: 0,
         totalWidth: 0
@@ -88,8 +94,8 @@ export default class Move extends Component {
           </Detail>
           <Detail>
             <FAicon icon={faBoxFull} />
-            <strong>{boxesData["totalItems"]}</strong>
-            {boxesData["totalItems"] === 1 ? ` Item` : ` Items`}
+            <strong>{this.state.numItems}</strong>
+            {this.state.numItems === 1 ? ` Item` : ` Items`}
           </Detail>
           <Detail>
             <FAicon icon={faContainerStorage} />
