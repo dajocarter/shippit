@@ -51,11 +51,16 @@ export default class Dashboard extends Component {
           <div>
             <AddBox uid={this.props.uid} />
             {this.state.boxes.map(box => (
-              <Box key={box.key} uid={this.props.uid} box={box} />
+              <Box
+                key={box.key}
+                uid={this.props.uid}
+                box={box}
+                showingItems={false}
+              />
             ))}
           </div>
         ) : (
-          <Box uid={this.props.uid} />
+          <Box uid={this.props.uid} showingItems={false} />
         )}
       </Col>
     );

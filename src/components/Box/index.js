@@ -15,7 +15,7 @@ const Container = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 3px;
   box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px;
-  margin-bottom: 2rem;
+  margin: ${props => (props.showingItems ? `2rem auto` : `0 auto 2rem`)};
 `;
 
 const BoxImage = styled.img`
@@ -135,7 +135,7 @@ export default class Box extends Component {
       return <Redirect to={`edit/box/${this.state.boxId}`} />;
     }
     return (
-      <Container>
+      <Container showingItems={this.props.showingItems}>
         {box.image ? (
           <BoxImage src={box.image} alt={box.name} />
         ) : (
@@ -158,57 +158,66 @@ export default class Box extends Component {
               <Detail>{box.items || 0}</Detail> items
             </BoxDetails>
           </BoxInfo>
-          {box.key ? (
-            <div>
-              {box.closed ? (
-                <BoxActions>
-                  <Action
-                    onClick={e => this.openBox(box.key, e)}
-                    color={`blue`}
-                  >
-                    Open Box
-                  </Action>
-                  <Action
-                    onClick={e => this.deleteBox(box.key, e)}
-                    color={`red`}
-                  >
-                    Delete Box
-                  </Action>
-                </BoxActions>
-              ) : (
-                <BoxActions>
-                  <Action
-                    onClick={e => this.closeBox(box.key, e)}
-                    color={`green`}
-                  >
-                    Close Box
-                  </Action>
-                  <Action>
-                    <ActionLink to={`boxes/${box.key}`} color={`blue`}>
-                      Edit Box
-                    </ActionLink>
-                  </Action>
-                  <Action>
-                    <ActionLink to={`boxes/${box.key}/items`} color={`blue`}>
-                      Edit Items
-                    </ActionLink>
-                  </Action>
-                  <Action
-                    onClick={e => this.deleteBox(box.key, e)}
-                    color={`red`}
-                  >
-                    Delete Box
-                  </Action>
-                </BoxActions>
-              )}
-            </div>
-          ) : (
-            <BoxActions>
-              <Action onClick={e => this.createBox(e)} color={`green`}>
-                Start Packing
-              </Action>
-            </BoxActions>
-          )}
+          {box.key &&
+            !this.props.showingItems && (
+              <div>
+                {box.closed ? (
+                  <BoxActions>
+                    <Action
+                      onClick={e => this.openBox(box.key, e)}
+                      color={`blue`}
+                    >
+                      Open Box
+                    </Action>
+                    <Action
+                      onClick={e => this.deleteBox(box.key, e)}
+                      color={`red`}
+                    >
+                      Delete Box
+                    </Action>
+                  </BoxActions>
+                ) : (
+                  <BoxActions>
+                    <Action
+                      onClick={e => this.closeBox(box.key, e)}
+                      color={`green`}
+                    >
+                      Close Box
+                    </Action>
+                    <Action>
+                      <ActionLink to={`boxes/${box.key}`} color={`blue`}>
+                        Edit Box
+                      </ActionLink>
+                    </Action>
+                    <Action>
+                      <ActionLink
+                        to={{
+                          pathname: `boxes/${box.key}/items`,
+                          state: { box }
+                        }}
+                        color={`blue`}
+                      >
+                        Edit Items
+                      </ActionLink>
+                    </Action>
+                    <Action
+                      onClick={e => this.deleteBox(box.key, e)}
+                      color={`red`}
+                    >
+                      Delete Box
+                    </Action>
+                  </BoxActions>
+                )}
+              </div>
+            )}
+          {!box.key &&
+            !this.props.showingItems && (
+              <BoxActions>
+                <Action onClick={e => this.createBox(e)} color={`green`}>
+                  Start Packing
+                </Action>
+              </BoxActions>
+            )}
         </BoxContent>
       </Container>
     );
