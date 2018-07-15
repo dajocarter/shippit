@@ -38,8 +38,8 @@ export default class EditBox extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const db = database();
-    const store = storage();
+    const db = database().ref(`boxes`);
+    const store = storage().ref(`boxes`);
 
     const boxData = {
       name: this.name.value,
@@ -48,13 +48,11 @@ export default class EditBox extends Component {
       width: this.width.value
     };
 
-    db.ref(`boxes`)
-      .child(`${this.props.uid}/${this.props.match.params.boxId}`)
+    db.child(`${this.props.uid}/${this.props.match.params.boxId}`)
       .update(boxData)
       .then(() => this.setState({ toDashboard: true }));
     if (this.file.files.length) {
       let uploadTask = store
-        .ref(`boxes`)
         .child(`${this.props.match.params.boxId}`)
         .put(this.file.files[0]);
       uploadTask.on(
