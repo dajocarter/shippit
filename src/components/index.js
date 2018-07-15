@@ -7,6 +7,7 @@ import Register from "./forms/Register";
 import Home from "./Home";
 import Dashboard from "./protected/Dashboard";
 import EditBox from "../components/forms/EditBox";
+import Items from "../components/Items";
 import Header from "./partials/Header";
 import Loading from "../components/Loading";
 import { auth } from "../utils/firebase";
@@ -96,13 +97,13 @@ export default class App extends Component {
                 <PrivateRoute
                   authed={this.state.authed}
                   uid={this.state.uid}
-                  path="/boxes/:boxId"
-                  component={EditBox}
+                  path="/boxes/:boxId/items"
+                  component={Items}
                 />
                 <PrivateRoute
                   authed={this.state.authed}
                   uid={this.state.uid}
-                  path="/boxes/:boxId/items"
+                  path="/boxes/:boxId"
                   component={EditBox}
                 />
                 <PrivateRoute
