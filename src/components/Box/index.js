@@ -87,7 +87,7 @@ const ActionLink = styled(Link)`
 `;
 
 export default class Box extends Component {
-  state = { editBox: null };
+  state = { boxId: null };
 
   createBox = e => {
     e.preventDefault();
@@ -102,7 +102,7 @@ export default class Box extends Component {
     const boxKey = db.push().key;
     db.child(`${this.props.uid}/${boxKey}`)
       .update(boxData)
-      .then(() => this.setState({ editBox: boxKey }));
+      .then(() => this.setState({ boxId: boxKey }));
   };
 
   openBox = (boxKey, e) => {
@@ -131,8 +131,8 @@ export default class Box extends Component {
 
   render() {
     const { box } = this.props;
-    if (this.state.editBox) {
-      return <Redirect to={`edit/box/${this.state.editBox}`} />;
+    if (this.state.boxId) {
+      return <Redirect to={`edit/box/${this.state.boxId}`} />;
     }
     return (
       <Container>

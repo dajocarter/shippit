@@ -96,7 +96,13 @@ export default class App extends Component {
                 <PrivateRoute
                   authed={this.state.authed}
                   uid={this.state.uid}
-                  path="/edit/box/:boxId"
+                  path="/boxes/:boxId"
+                  component={EditBox}
+                />
+                <PrivateRoute
+                  authed={this.state.authed}
+                  uid={this.state.uid}
+                  path="/boxes/:boxId/items"
                   component={EditBox}
                 />
                 <PrivateRoute

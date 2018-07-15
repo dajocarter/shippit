@@ -64,11 +64,11 @@ export default class AddBox extends Component {
     const boxKey = db.push().key;
     db.child(`${this.props.uid}/${boxKey}`)
       .update(boxData)
-      .then(() => this.setState({ editBox: boxKey }));
+      .then(() => this.setState({ boxId: boxKey }));
   };
   render() {
-    if (this.state.editBox) {
-      return <Redirect to={`edit/box/${this.state.editBox}`} />;
+    if (this.state.boxId) {
+      return <Redirect to={`boxes/${this.state.boxId}`} />;
     }
     return (
       <Container>
