@@ -72,14 +72,15 @@ const Action = styled.span`
   flex: 0 0 auto;
   padding: 1rem;
   cursor: pointer;
-  color: green;
+  color: ${props => props.color};
 
-  & + & {
+  &:not(:first-child) {
     margin-left: 1rem;
   }
 `;
 
 const ActionLink = styled(Link)`
+  color: ${props => props.color};
   &:hover {
     text-decoration: none;
   }
@@ -161,27 +162,41 @@ export default class Box extends Component {
             <div>
               {box.closed ? (
                 <BoxActions>
-                  <Action onClick={e => this.openBox(box.key, e)}>
+                  <Action
+                    onClick={e => this.openBox(box.key, e)}
+                    color={`blue`}
+                  >
                     Open Box
                   </Action>
-                  <Action onClick={e => this.deleteBox(box.key, e)}>
+                  <Action
+                    onClick={e => this.deleteBox(box.key, e)}
+                    color={`red`}
+                  >
                     Delete Box
                   </Action>
                 </BoxActions>
               ) : (
                 <BoxActions>
-                  <Action onClick={e => this.closeBox(box.key, e)}>
+                  <Action
+                    onClick={e => this.closeBox(box.key, e)}
+                    color={`green`}
+                  >
                     Close Box
                   </Action>
                   <Action>
-                    <ActionLink to={`edit/box/${box.key}`}>Edit Box</ActionLink>
+                    <ActionLink to={`edit/box/${box.key}`} color={`blue`}>
+                      Edit Box
+                    </ActionLink>
                   </Action>
                   <Action>
-                    <ActionLink to={`edit/item/${box.key}`}>
+                    <ActionLink to={`edit/item/${box.key}`} color={`blue`}>
                       Edit Items
                     </ActionLink>
                   </Action>
-                  <Action onClick={e => this.deleteBox(box.key, e)}>
+                  <Action
+                    onClick={e => this.deleteBox(box.key, e)}
+                    color={`red`}
+                  >
                     Delete Box
                   </Action>
                 </BoxActions>
@@ -189,7 +204,9 @@ export default class Box extends Component {
             </div>
           ) : (
             <BoxActions>
-              <Action onClick={e => this.createBox(e)}>Start Packing</Action>
+              <Action onClick={e => this.createBox(e)} color={`green`}>
+                Start Packing
+              </Action>
             </BoxActions>
           )}
         </BoxContent>
