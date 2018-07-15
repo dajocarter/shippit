@@ -49,7 +49,7 @@ const FAicon = styled(FontAwesomeIcon)`
 `;
 
 export default class AddBox extends Component {
-  state = { editBox: null };
+  state = { boxId: null };
 
   createBox = e => {
     e.preventDefault();
