@@ -87,8 +87,19 @@ const ActionLink = styled(Link)`
 `;
 
 export default class Box extends Component {
-  state = { boxId: null };
+  state = { box: {}, numItems: 0 };
 
+  componentDidMount() {
+    const db = database();
+    db.ref("boxes")
+      .child(`${this.props.uid}/${this.props.boxId}`)
+      .on("value", box => this.setState({ box: box.val() }));
+    db.ref(`items`)
+      .child(`${this.props.uid}`)
+      .orderByChild("box")
+      .equalTo(this.props.boxId)
+      .on("value", items => this.setState({ numItems: items.numChildren() }));
+  }
   createBox = e => {
     e.preventDefault();
     const db = database().ref(`boxes`);
@@ -130,7 +141,8 @@ export default class Box extends Component {
   };
 
   render() {
-    const { box = {} } = this.props;
+    const { box } = this.state;
+    const { boxId, showingItems } = this.props;
     if (this.state.boxId) {
       return <Redirect to={`edit/box/${this.state.boxId}`} />;
     }
@@ -155,22 +167,22 @@ export default class Box extends Component {
               <Detail>{box.length || 0}"</Detail> L
             </BoxDetails>
             <BoxDetails>
-              <Detail>{box.items || 0}</Detail> items
+              <Detail>{this.state.numItems}</Detail> items
             </BoxDetails>
           </BoxInfo>
-          {box.key &&
-            !this.props.showingItems && (
+          {boxId &&
+            !showingItems && (
               <div>
                 {box.closed ? (
                   <BoxActions>
                     <Action
-                      onClick={e => this.openBox(box.key, e)}
+                      onClick={e => this.openBox(boxId, e)}
                       color={`blue`}
                     >
                       Open Box
                     </Action>
                     <Action
-                      onClick={e => this.deleteBox(box.key, e)}
+                      onClick={e => this.deleteBox(boxId, e)}
                       color={`red`}
                     >
                       Delete Box
@@ -179,29 +191,23 @@ export default class Box extends Component {
                 ) : (
                   <BoxActions>
                     <Action
-                      onClick={e => this.closeBox(box.key, e)}
+                      onClick={e => this.closeBox(boxId, e)}
                       color={`green`}
                     >
                       Close Box
                     </Action>
                     <Action>
-                      <ActionLink to={`boxes/${box.key}`} color={`blue`}>
+                      <ActionLink to={`boxes/${boxId}`} color={`blue`}>
                         Edit Box
                       </ActionLink>
                     </Action>
                     <Action>
-                      <ActionLink
-                        to={{
-                          pathname: `boxes/${box.key}/items`,
-                          state: { box }
-                        }}
-                        color={`blue`}
-                      >
+                      <ActionLink to={`boxes/${boxId}/items`} color={`blue`}>
                         Edit Items
                       </ActionLink>
                     </Action>
                     <Action
-                      onClick={e => this.deleteBox(box.key, e)}
+                      onClick={e => this.deleteBox(boxId, e)}
                       color={`red`}
                     >
                       Delete Box
@@ -210,8 +216,8 @@ export default class Box extends Component {
                 )}
               </div>
             )}
-          {!box.key &&
-            !this.props.showingItems && (
+          {!boxId &&
+            !showingItems && (
               <BoxActions>
                 <Action onClick={e => this.createBox(e)} color={`green`}>
                   Start Packing

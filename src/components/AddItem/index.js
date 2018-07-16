@@ -37,7 +37,7 @@ export default class AddItem extends Component {
     const db = database().ref(`items`);
     const itemData = {
       name: this.name.value,
-      box: this.props.boxKey
+      box: this.props.boxId
     };
     const itemKey = db.child(`${this.props.uid}`).push().key;
     db.child(`${this.props.uid}/${itemKey}`)

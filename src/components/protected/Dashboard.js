@@ -8,34 +8,20 @@ import Move from "../Move";
 import AddBox from "../AddBox";
 
 export default class Dashboard extends Component {
-  state = { boxes: [], loading: true };
+  state = { boxKeys: [], loading: true };
 
   componentDidMount() {
     const db = database().ref(`boxes`);
-    const userBoxesRef = db.child(`${this.props.uid}`).orderByChild("closed");
-    userBoxesRef.on("value", boxesSnapshot => {
-      let boxes = [];
-      if (boxesSnapshot.exists()) {
-        boxesSnapshot.forEach(box => {
-          const boxRef = db.child(`${this.props.uid}/${box.key}`);
-          boxRef
-            .once("value", boxSnapshot => {
-              let boxData = boxSnapshot.val();
-              boxData["key"] = box.key;
-              boxes.push(boxData);
-            })
-            .then(() => {
-              this.setState({
-                boxes,
-                loading: false
-              });
-            })
-            .catch(error => console.log(error));
+    const userBoxes = db.child(`${this.props.uid}`).orderByChild("closed");
+    userBoxes.on("value", boxes => {
+      let boxKeys = [];
+      if (boxes.exists()) {
+        boxes.forEach(box => {
+          boxKeys.push(box.key);
         });
+        this.setState({ loading: false, boxKeys });
       } else {
-        this.setState({
-          loading: false
-        });
+        this.setState({ loading: false });
       }
     });
   }
@@ -47,14 +33,14 @@ export default class Dashboard extends Component {
     return (
       <Col xs={12}>
         <Move uid={this.props.uid} />
-        {this.state.boxes.length ? (
+        {this.state.boxKeys.length ? (
           <div>
             <AddBox uid={this.props.uid} />
-            {this.state.boxes.map(box => (
+            {this.state.boxKeys.map(boxKey => (
               <Box
-                key={box.key}
+                key={boxKey}
                 uid={this.props.uid}
-                box={box}
+                boxId={boxKey}
                 showingItems={false}
               />
             ))}

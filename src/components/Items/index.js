@@ -7,7 +7,7 @@ import Box from "../Box";
 import AddItem from "../AddItem";
 
 export default class Items extends Component {
-  state = { items: null, loading: true };
+  state = { items: [], loading: true };
   componentDidMount() {
     const db = database().ref(`items/${this.props.uid}`);
     db.orderByChild("box")
@@ -39,13 +39,10 @@ export default class Items extends Component {
       <Col xs={12}>
         <Box
           uid={this.props.uid}
-          box={this.props.location.state.box}
+          boxId={this.props.match.params.boxId}
           showingItems={true}
         />
-        <AddItem
-          uid={this.props.uid}
-          boxKey={this.props.location.state.box.key}
-        />
+        <AddItem uid={this.props.uid} boxId={this.props.match.params.boxId} />
         {this.state.items && (
           <ListGroup>
             {this.state.items.map(item => (
