@@ -1,9 +1,6 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
 import styled from "styled-components";
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/fontawesome-pro-light";
-import { database } from "../../utils/firebase";
+import { FormGroup, ControlLabel, FormControl, Button } from "react-bootstrap";
 
 const Container = styled.div`
   display: flex;
@@ -29,54 +26,66 @@ const BoxContent = styled.div`
 
 const BoxTitle = styled.h3`
   margin-top: 0;
-  text-align: center;
-`;
-
-const Action = styled.div`
-  border-radius: 50%;
-  background-color: red;
-  height: 50px;
-  width: 50px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const FAicon = styled(FontAwesomeIcon)`
-  font-size: 2.5rem;
-  color: white;
 `;
 
 export default class AddBox extends Component {
-  state = { boxId: null };
-
-  createBox = e => {
-    e.preventDefault();
-    const db = database().ref(`boxes`);
-    const boxData = {
-      name: "Unnamed Box",
-      height: 0,
-      length: 0,
-      width: 0,
+  createBox(event) {
+    event.preventDefault();
+    const box = {
+      name: this.name.value,
+      height: this.height.value,
+      length: this.length.value,
+      width: this.width.value,
       closed: false
     };
-    const boxKey = db.push().key;
-    db.child(`${this.props.uid}/${boxKey}`)
-      .update(boxData)
-      .then(() => this.setState({ boxId: boxKey }));
-  };
+    this.props.addBox(box);
+    this.boxForm.reset();
+  }
   render() {
-    if (this.state.boxId) {
-      return <Redirect to={`boxes/${this.state.boxId}`} />;
-    }
     return (
       <Container>
         <BoxContent>
           <BoxTitle>Add A Box</BoxTitle>
-          <Action onClick={e => this.createBox(e)}>
-            <FAicon icon={faPlus} />
-          </Action>
+          <form
+            ref={input => (this.boxForm = input)}
+            onSubmit={e => this.createBox(e)}
+          >
+            <FormGroup controlId="name">
+              <ControlLabel>Name</ControlLabel>
+              <FormControl
+                type="text"
+                placeholder="Name"
+                inputRef={name => (this.name = name)}
+              />
+            </FormGroup>
+            <FormGroup controlId="width">
+              <ControlLabel>Width (in)</ControlLabel>
+              <FormControl
+                type="number"
+                placeholder="Width"
+                inputRef={width => (this.width = width)}
+              />
+            </FormGroup>
+            <FormGroup controlId="length">
+              <ControlLabel>Length (in)</ControlLabel>
+              <FormControl
+                type="number"
+                placeholder="length"
+                inputRef={length => (this.length = length)}
+              />
+            </FormGroup>
+            <FormGroup controlId="height">
+              <ControlLabel>Height (in)</ControlLabel>
+              <FormControl
+                type="number"
+                placeholder="Height"
+                inputRef={height => (this.height = height)}
+              />
+            </FormGroup>
+            <Button type="submit" bsStyle="success" block>
+              Submit
+            </Button>
+          </form>
         </BoxContent>
       </Container>
     );

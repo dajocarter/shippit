@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { FormGroup, ControlLabel, FormControl, Button } from "react-bootstrap";
 import styled from "styled-components";
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/fontawesome-pro-light";
 import { database } from "../../utils/firebase";
 
 const Container = styled.div`

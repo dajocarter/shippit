@@ -1,6 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
 import styled from "styled-components";
-import { database } from "../../utils/firebase";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import {
   faBoxFull,
@@ -36,80 +35,51 @@ const FAicon = styled(FontAwesomeIcon)`
   margin-right: 0.5rem;
 `;
 
-export default class Move extends Component {
-  state = {
-    boxes: 0,
-    items: 0
-  };
-  componentDidMount() {
-    const db = database();
-    db.ref(`boxes`)
-      .child(`${this.props.uid}`)
-      .on("value", userSnapshot => {
-        let boxes = [];
-        userSnapshot.forEach(box => {
-          const boxRef = db.ref(`boxes`).child(`${this.props.uid}/${box.key}`);
-          boxRef
-            .once("value", boxSnapshot => {
-              let boxData = boxSnapshot.val();
-              boxData["key"] = box.key;
-              boxes.push(boxData);
-            })
-            .then(() => {
-              this.setState({ boxes });
-            });
-        });
-      });
-    db.ref(`items`)
-      .child(`${this.props.uid}`)
-      .on("value", userSnapshot => {
-        this.setState({ numItems: userSnapshot.numChildren() });
-      });
-  }
+const Move = ({ boxes, items }) => {
+  const boxesData = Array.from(boxes).reduce(
+    (allBoxes, currentBox) => {
+      allBoxes["totalBoxes"]++;
+      allBoxes["totalHeight"] += parseFloat(currentBox["height"]);
+      allBoxes["totalLength"] += parseFloat(currentBox["length"]);
+      allBoxes["totalWidth"] += parseFloat(currentBox["width"]);
+      return allBoxes;
+    },
+    {
+      totalBoxes: 0,
+      totalHeight: 0,
+      totalLength: 0,
+      totalWidth: 0
+    }
+  );
 
-  render() {
-    const boxesData = Array.from(this.state.boxes).reduce(
-      (allBoxes, currentBox) => {
-        allBoxes["totalBoxes"]++;
-        allBoxes["totalHeight"] += parseFloat(currentBox["height"]);
-        allBoxes["totalLength"] += parseFloat(currentBox["length"]);
-        allBoxes["totalWidth"] += parseFloat(currentBox["width"]);
-        return allBoxes;
-      },
-      {
-        totalBoxes: 0,
-        totalHeight: 0,
-        totalLength: 0,
-        totalWidth: 0
-      }
-    );
-    return (
-      <Box>
-        <BoxTitle>Your Move</BoxTitle>
-        <Details>
-          <Detail>
-            <FAicon icon={faBoxesAlt} />
-            <strong>{boxesData["totalBoxes"]}</strong>
-            {boxesData["totalBoxes"] === 1 ? ` Box` : ` Boxes`}
-          </Detail>
-          <Detail>
-            <FAicon icon={faBoxFull} />
-            <strong>{this.state.numItems}</strong>
-            {this.state.numItems === 1 ? ` Item` : ` Items`}
-          </Detail>
-          <Detail>
-            <FAicon icon={faContainerStorage} />
-            <strong>
-              {(
-                (boxesData["totalHeight"] / 12) *
-                (boxesData["totalLength"] / 12) *
-                (boxesData["totalWidth"] / 12)
-              ).toFixed(2)}
-            </strong>{" "}
-            ft<sup>3</sup>
-          </Detail>
-        </Details>
-      </Box>
-    );
-  }
-}
+  return (
+    <Box>
+      <BoxTitle>Your Move</BoxTitle>
+      <Details>
+        <Detail>
+          <FAicon icon={faBoxesAlt} />
+          <strong>{boxesData["totalBoxes"]}</strong>
+          {boxesData["totalBoxes"] === 1 ? ` Box` : ` Boxes`}
+        </Detail>
+        <Detail>
+          <FAicon icon={faBoxFull} />
+          <strong>{items.length}</strong>
+          {items.length === 1 ? ` Item` : ` Items`}
+        </Detail>
+        <Detail>
+          <FAicon icon={faContainerStorage} />
+          <strong>
+            {(
+              (boxesData["totalHeight"] / 12) *
+              (boxesData["totalLength"] / 12) *
+              (boxesData["totalWidth"] / 12)
+            ).toFixed(2)}
+          </strong>{" "}
+          ft<sup>3</sup>
+        </Detail>
+      </Details>
+    </Box>
+  );
+};
+
+export default Move;

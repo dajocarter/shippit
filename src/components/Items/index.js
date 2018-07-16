@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { Col, ListGroup, ListGroupItem } from "react-bootstrap";
-import styled from "styled-components";
 import { database } from "../../utils/firebase";
 import Box from "../Box";
 import AddItem from "../AddItem";

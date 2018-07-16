@@ -1,9 +1,8 @@
-import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import { faBoxCheck, faBoxOpen } from "@fortawesome/fontawesome-pro-light";
-import { database } from "../../utils/firebase";
 
 const Container = styled.div`
   display: flex;
@@ -86,146 +85,84 @@ const ActionLink = styled(Link)`
   }
 `;
 
-export default class Box extends Component {
-  state = { box: {}, numItems: 0 };
-
-  componentDidMount() {
-    const db = database();
-    db.ref("boxes")
-      .child(`${this.props.uid}/${this.props.boxId}`)
-      .on("value", box => this.setState({ box: box.val() }));
-    db.ref(`items`)
-      .child(`${this.props.uid}`)
-      .orderByChild("box")
-      .equalTo(this.props.boxId)
-      .on("value", items => this.setState({ numItems: items.numChildren() }));
-  }
-  createBox = e => {
-    e.preventDefault();
-    const db = database().ref(`boxes`);
-    const boxData = {
-      name: "Unnamed Box",
-      height: 0,
-      length: 0,
-      width: 0,
-      closed: false
-    };
-    const boxKey = db.push().key;
-    db.child(`${this.props.uid}/${boxKey}`)
-      .update(boxData)
-      .then(() => this.setState({ boxId: boxKey }));
-  };
-
-  openBox = (boxKey, e) => {
-    e.preventDefault();
-    const db = database().ref(`boxes`);
-    db.child(`${this.props.uid}/${boxKey}`)
-      .update({ closed: false })
-      .catch(error => console.log(error));
-  };
-
-  closeBox = (boxKey, e) => {
-    e.preventDefault();
-    const db = database().ref(`boxes`);
-    db.child(`${this.props.uid}/${boxKey}`)
-      .update({ closed: true })
-      .catch(error => console.log(error));
-  };
-
-  deleteBox = (boxKey, e) => {
-    e.preventDefault();
-    const db = database().ref(`boxes`);
-    db.child(`${this.props.uid}/${boxKey}`)
-      .remove()
-      .catch(error => console.log(error));
-  };
-
-  render() {
-    const { box } = this.state;
-    const { boxId, showingItems } = this.props;
-    if (this.state.boxId) {
-      return <Redirect to={`edit/box/${this.state.boxId}`} />;
-    }
-    return (
-      <Container showingItems={this.props.showingItems}>
-        {box.image ? (
-          <BoxImage src={box.image} alt={box.name} />
-        ) : (
-          <PlaceHolder>
-            <FAicon
-              icon={box.closed ? faBoxCheck : faBoxOpen}
-              color={box.closed ? `green` : `blue`}
-            />
-          </PlaceHolder>
-        )}
-        <BoxContent>
-          <BoxInfo>
-            <BoxTitle>{box.name || `Unnamed Box`}</BoxTitle>
-            <BoxDetails>
-              <Detail>{box.height || 0}"</Detail> H x{" "}
-              <Detail>{box.width || 0}"</Detail> W x{" "}
-              <Detail>{box.length || 0}"</Detail> L
-            </BoxDetails>
-            <BoxDetails>
-              <Detail>{this.state.numItems}</Detail> items
-            </BoxDetails>
-          </BoxInfo>
-          {boxId &&
-            !showingItems && (
-              <div>
-                {box.closed ? (
-                  <BoxActions>
-                    <Action
-                      onClick={e => this.openBox(boxId, e)}
-                      color={`blue`}
-                    >
-                      Open Box
-                    </Action>
-                    <Action
-                      onClick={e => this.deleteBox(boxId, e)}
-                      color={`red`}
-                    >
-                      Delete Box
-                    </Action>
-                  </BoxActions>
-                ) : (
-                  <BoxActions>
-                    <Action
-                      onClick={e => this.closeBox(boxId, e)}
-                      color={`green`}
-                    >
-                      Close Box
-                    </Action>
-                    <Action>
-                      <ActionLink to={`boxes/${boxId}`} color={`blue`}>
-                        Edit Box
-                      </ActionLink>
-                    </Action>
-                    <Action>
-                      <ActionLink to={`boxes/${boxId}/items`} color={`blue`}>
-                        Edit Items
-                      </ActionLink>
-                    </Action>
-                    <Action
-                      onClick={e => this.deleteBox(boxId, e)}
-                      color={`red`}
-                    >
-                      Delete Box
-                    </Action>
-                  </BoxActions>
-                )}
-              </div>
-            )}
-          {!boxId &&
-            !showingItems && (
-              <BoxActions>
-                <Action onClick={e => this.createBox(e)} color={`green`}>
-                  Start Packing
-                </Action>
-              </BoxActions>
-            )}
-        </BoxContent>
-      </Container>
+const Box = props => {
+  let numItems = 0;
+  if (props.items.length) {
+    const boxItems = Array.from(props.items).filter(
+      item => item.box === props.box.key
     );
+    numItems = boxItems.length;
   }
-}
+
+  const { box } = props;
+
+  return (
+    <Container showingItems={props.showingItems}>
+      {box.image ? (
+        <BoxImage src={box.image} alt={box.name} />
+      ) : (
+        <PlaceHolder>
+          <FAicon
+            icon={box.closed ? faBoxCheck : faBoxOpen}
+            color={box.closed ? `green` : `blue`}
+          />
+        </PlaceHolder>
+      )}
+      <BoxContent>
+        <BoxInfo>
+          <BoxTitle>{box.name}</BoxTitle>
+          <BoxDetails>
+            <Detail>{box.height}"</Detail> H x <Detail>{box.width}"</Detail> W x{" "}
+            <Detail>{box.length}"</Detail> L
+          </BoxDetails>
+          <BoxDetails>
+            <Detail>{numItems}</Detail> items
+          </BoxDetails>
+        </BoxInfo>
+        {box.key &&
+          !props.showingItems && (
+            <div>
+              {box.closed ? (
+                <BoxActions>
+                  <Action
+                    onClick={() => props.toggleBoxStatus(box.key, false)}
+                    color={`blue`}
+                  >
+                    Open Box
+                  </Action>
+                  <Action
+                    onClick={() => props.deleteBox(box.key)}
+                    color={`red`}
+                  >
+                    Delete Box
+                  </Action>
+                </BoxActions>
+              ) : (
+                <BoxActions>
+                  <Action
+                    onClick={() => props.toggleBoxStatus(box.key, true)}
+                    color={`green`}
+                  >
+                    Close Box
+                  </Action>
+                  <Action>
+                    <ActionLink to={`box/${box.key}`} color={`blue`}>
+                      Edit Items
+                    </ActionLink>
+                  </Action>
+                  <Action
+                    onClick={() => props.deleteBox(box.key)}
+                    color={`red`}
+                  >
+                    Delete Box
+                  </Action>
+                </BoxActions>
+              )}
+            </div>
+          )}
+      </BoxContent>
+    </Container>
+  );
+};
+
+export default Box;
