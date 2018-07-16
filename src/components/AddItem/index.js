@@ -30,25 +30,25 @@ const BoxTitle = styled.h3`
 `;
 
 export default class AddItem extends Component {
-  createItem = e => {
-    e.preventDefault();
-    const db = database().ref(`items`);
-    const itemData = {
+  createItem(event) {
+    event.preventDefault();
+    const item = {
       name: this.name.value,
       box: this.props.boxId
     };
-    const itemKey = db.child(`${this.props.uid}`).push().key;
-    db.child(`${this.props.uid}/${itemKey}`)
-      .update(itemData)
-      .then(() => document.getElementById("add-item").reset());
-  };
+    this.props.addItem(item);
+    this.itemForm.reset();
+  }
 
   render() {
     return (
       <Container>
         <BoxContent>
           <BoxTitle>Add An Item</BoxTitle>
-          <form id="add-item" onSubmit={this.createItem}>
+          <form
+            ref={form => (this.itemForm = form)}
+            onSubmit={e => this.createItem(e)}
+          >
             <FormGroup controlId="name">
               <ControlLabel>Name</ControlLabel>
               <FormControl

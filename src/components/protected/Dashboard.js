@@ -60,8 +60,7 @@ export default class Dashboard extends Component {
 
   addBox(box) {
     const db = database().ref(`boxes`);
-    const boxKey = db.push().key;
-    db.child(`${this.props.uid}/${boxKey}`).update(box);
+    db.child(`${this.props.uid}`).push(box);
   }
 
   toggleBoxStatus(boxKey, status) {

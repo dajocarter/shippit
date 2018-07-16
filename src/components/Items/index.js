@@ -5,16 +5,36 @@ import Box from "../Box";
 import AddItem from "../AddItem";
 
 export default class Items extends Component {
+  constructor() {
+    super();
+
+    this.addItem = this.addItem.bind(this);
+  }
+
   state = { items: [], loading: true };
+
   componentDidMount() {
-    const db = database().ref(`items/${this.props.uid}`);
-    db.orderByChild("box")
+    const db = database();
+
+    db.ref(`boxes/${this.props.uid}/${this.props.match.params.boxId}`)
+      .once("value")
+      .then(snap => {
+        const key = snap.key;
+        const data = snap.val();
+        const box = { key, ...data };
+        this.setState({ box });
+      });
+
+    db.ref(`items/${this.props.uid}`)
+      .orderByChild("box")
       .equalTo(this.props.match.params.boxId)
       .on("value", snap => {
         let items = [];
         if (snap.exists()) {
           snap.forEach(item => {
-            const itemRef = db.child(`${item.key}`);
+            const itemRef = db
+              .ref(`items`)
+              .child(`${this.props.uid}/${item.key}`);
             itemRef
               .once("value", itemSnapshot => {
                 let itemData = itemSnapshot.val();
@@ -22,7 +42,10 @@ export default class Items extends Component {
                 items.push(itemData);
               })
               .then(() => {
-                this.setState({ items, loading: false });
+                this.setState({
+                  items,
+                  loading: false
+                });
               })
               .catch(error => console.log(error));
           });
@@ -32,15 +55,25 @@ export default class Items extends Component {
       });
   }
 
+  addItem(item) {
+    const db = database().ref(`items`);
+    db.child(`${this.props.uid}`).push(item);
+  }
+
   render() {
     return (
       <Col xs={12}>
-        <Box
-          uid={this.props.uid}
-          boxId={this.props.match.params.boxId}
-          showingItems={true}
-        />
-        <AddItem uid={this.props.uid} boxId={this.props.match.params.boxId} />
+        {this.state.box &&
+          this.state.items && (
+            <Box
+              box={this.state.box}
+              items={this.state.items}
+              showingItems={true}
+            />
+          )}
+        {this.state.box && (
+          <AddItem boxId={this.state.box.key} addItem={this.addItem} />
+        )}
         {this.state.items && (
           <ListGroup>
             {this.state.items.map(item => (
