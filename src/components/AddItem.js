@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { FormGroup, ControlLabel, FormControl, Button } from "react-bootstrap";
 import styled from "styled-components";
-import { database } from "../../utils/firebase";
 
 const Container = styled.div`
   display: flex;

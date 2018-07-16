@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { Route, BrowserRouter, Redirect, Switch } from "react-router-dom";
 import { Grid, Row } from "react-bootstrap";
-import Login from "./forms/Login";
-import Register from "./forms/Register";
-import Home from "./Home";
-import Dashboard from "./protected/Dashboard";
-import Items from "../components/Items";
-import Header from "./partials/Header";
-import Loading from "../components/Loading";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Home from "./pages/Home";
+import Boxes from "./pages/Boxes";
+import Items from "./pages/Items";
+import Header from "./Header";
+import Loading from "./Loading";
 import { auth } from "../utils/firebase";
 
 function PrivateRoute({ component: Component, authed, ...rest }) {
@@ -99,7 +99,7 @@ export default class App extends Component {
                   authed={this.state.authed}
                   uid={this.state.uid}
                   path="/boxes"
-                  component={Dashboard}
+                  component={Boxes}
                 />
                 <Route render={() => <h3>404 (page not found)</h3>} />
               </Switch>

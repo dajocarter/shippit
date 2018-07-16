@@ -7,7 +7,7 @@ import Box from "../Box";
 import Move from "../Move";
 import AddBox from "../AddBox";
 
-export default class Dashboard extends Component {
+export default class Boxes extends Component {
   constructor() {
     super();
 
