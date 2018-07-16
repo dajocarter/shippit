@@ -34,7 +34,7 @@ const Header = props => (
       </NavItem>
       <NavItem>
         <Navbar.Brand>
-          <Link to="/dashboard">Dashboard</Link>
+          <Link to="/boxes">Dashboard</Link>
         </Navbar.Brand>
       </NavItem>
       <NavItem>

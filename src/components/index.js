@@ -33,11 +33,7 @@ function PublicRoute({ component: Component, authed, ...rest }) {
     <Route
       {...rest}
       render={props =>
-        authed === false ? (
-          <Component {...props} />
-        ) : (
-          <Redirect to="/dashboard" />
-        )
+        authed === false ? <Component {...props} /> : <Redirect to="/boxes" />
       }
     />
   );
@@ -96,13 +92,13 @@ export default class App extends Component {
                 <PrivateRoute
                   authed={this.state.authed}
                   uid={this.state.uid}
-                  path="/box/:boxId"
+                  path="/boxes/:boxId"
                   component={Items}
                 />
                 <PrivateRoute
                   authed={this.state.authed}
                   uid={this.state.uid}
-                  path="/dashboard"
+                  path="/boxes"
                   component={Dashboard}
                 />
                 <Route render={() => <h3>404 (page not found)</h3>} />
