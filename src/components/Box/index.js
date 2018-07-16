@@ -146,7 +146,7 @@ const Box = props => {
                     Close Box
                   </Action>
                   <Action>
-                    <ActionLink to={`box/${box.key}`} color={`blue`}>
+                    <ActionLink to={`boxes/${box.key}`} color={`blue`}>
                       Edit Items
                     </ActionLink>
                   </Action>
