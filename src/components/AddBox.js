@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { FormGroup, ControlLabel, FormControl, Button } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  FormGroup,
+  ControlLabel,
+  FormControl,
+  Button
+} from "react-bootstrap";
 
 const Container = styled.div`
   display: flex;
@@ -28,6 +35,10 @@ const BoxTitle = styled.h3`
   margin-top: 0;
 `;
 
+const Form = styled.form`
+  width: 100%;
+`;
+
 export default class AddBox extends Component {
   createBox(event) {
     event.preventDefault();
@@ -45,47 +56,63 @@ export default class AddBox extends Component {
     return (
       <Container>
         <BoxContent>
-          <BoxTitle>Add A Box</BoxTitle>
-          <form
+          <BoxTitle>Add a Box</BoxTitle>
+          <Form
             ref={input => (this.boxForm = input)}
             onSubmit={e => this.createBox(e)}
           >
-            <FormGroup controlId="name">
-              <ControlLabel>Name</ControlLabel>
-              <FormControl
-                type="text"
-                placeholder="Name"
-                inputRef={name => (this.name = name)}
-              />
-            </FormGroup>
-            <FormGroup controlId="width">
-              <ControlLabel>Width (in)</ControlLabel>
-              <FormControl
-                type="number"
-                placeholder="Width"
-                inputRef={width => (this.width = width)}
-              />
-            </FormGroup>
-            <FormGroup controlId="length">
-              <ControlLabel>Length (in)</ControlLabel>
-              <FormControl
-                type="number"
-                placeholder="length"
-                inputRef={length => (this.length = length)}
-              />
-            </FormGroup>
-            <FormGroup controlId="height">
-              <ControlLabel>Height (in)</ControlLabel>
-              <FormControl
-                type="number"
-                placeholder="Height"
-                inputRef={height => (this.height = height)}
-              />
-            </FormGroup>
-            <Button type="submit" bsStyle="success" block>
-              Submit
-            </Button>
-          </form>
+            <Row>
+              <Col xs={12}>
+                <FormGroup controlId="name">
+                  <ControlLabel>Name</ControlLabel>
+                  <FormControl
+                    type="text"
+                    placeholder="Enter a good description of your box"
+                    inputRef={name => (this.name = name)}
+                  />
+                </FormGroup>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={4}>
+                <FormGroup controlId="width">
+                  <ControlLabel>Width (in)</ControlLabel>
+                  <FormControl
+                    type="number"
+                    placeholder="Width"
+                    inputRef={width => (this.width = width)}
+                  />
+                </FormGroup>
+              </Col>
+              <Col xs={4}>
+                <FormGroup controlId="length">
+                  <ControlLabel>Length (in)</ControlLabel>
+                  <FormControl
+                    type="number"
+                    placeholder="Length"
+                    inputRef={length => (this.length = length)}
+                  />
+                </FormGroup>
+              </Col>
+              <Col xs={4}>
+                <FormGroup controlId="height">
+                  <ControlLabel>Height (in)</ControlLabel>
+                  <FormControl
+                    type="number"
+                    placeholder="Height"
+                    inputRef={height => (this.height = height)}
+                  />
+                </FormGroup>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={6} xsOffset={3}>
+                <Button type="submit" bsStyle="success" block>
+                  Submit
+                </Button>
+              </Col>
+            </Row>
+          </Form>
         </BoxContent>
       </Container>
     );
