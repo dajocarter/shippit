@@ -17,13 +17,7 @@ const Container = styled.div`
   margin: ${props => (props.showingItems ? `2rem auto` : `0 auto 2rem`)};
 `;
 
-const BoxImage = styled.img`
-  height: auto;
-  width: 200px;
-  flex: 0 0 auto;
-`;
-
-const PlaceHolder = styled.div`
+const BoxImage = styled.div`
   flex: 0 0 auto;
   width: 200px;
   display: flex;
@@ -98,16 +92,12 @@ const Box = props => {
 
   return (
     <Container showingItems={props.showingItems}>
-      {box.image ? (
-        <BoxImage src={box.image} alt={box.name} />
-      ) : (
-        <PlaceHolder>
-          <FAicon
-            icon={box.closed ? faBoxCheck : faBoxOpen}
-            color={box.closed ? `green` : `blue`}
-          />
-        </PlaceHolder>
-      )}
+      <BoxImage>
+        <FAicon
+          icon={box.closed ? faBoxCheck : faBoxOpen}
+          color={box.closed ? `green` : `blue`}
+        />
+      </BoxImage>
       <BoxContent>
         <BoxInfo>
           <BoxTitle>{box.name}</BoxTitle>
