@@ -39,28 +39,44 @@ const Form = styled.form`
   width: 100%;
 `;
 
+const INITIAL_STATE = { name: "", height: 0, length: 0, width: 0 };
+
 export default class AddBox extends Component {
-  createBox(event) {
+  constructor(props) {
+    super(props);
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  state = INITIAL_STATE;
+
+  handleInputChange(event) {
+    const { name, value } = event.target;
+    console.table({ name, value });
+    this.setState({ [name]: value });
+  }
+
+  handleSubmit(event) {
     event.preventDefault();
+    const { name, height, length, width } = this.state;
     const box = {
-      name: this.name.value,
-      height: this.height.value,
-      length: this.length.value,
-      width: this.width.value,
+      name,
+      height,
+      length,
+      width,
       closed: false
     };
     this.props.addBox(box);
-    this.boxForm.reset();
+    this.setState(INITIAL_STATE);
   }
+
   render() {
     return (
       <Container>
         <BoxContent>
           <BoxTitle>Add a Box</BoxTitle>
-          <Form
-            ref={input => (this.boxForm = input)}
-            onSubmit={e => this.createBox(e)}
-          >
+          <Form onSubmit={this.handleSubmit}>
             <Row>
               <Col xs={12}>
                 <FormGroup controlId="name">
@@ -68,7 +84,9 @@ export default class AddBox extends Component {
                   <FormControl
                     type="text"
                     placeholder="Enter a good description of your box"
-                    inputRef={name => (this.name = name)}
+                    value={this.state.name}
+                    name="name"
+                    onChange={this.handleInputChange}
                   />
                 </FormGroup>
               </Col>
@@ -79,8 +97,11 @@ export default class AddBox extends Component {
                   <ControlLabel>Width (in)</ControlLabel>
                   <FormControl
                     type="number"
+                    step={1 / 16}
                     placeholder="Width"
-                    inputRef={width => (this.width = width)}
+                    name="width"
+                    value={this.state.width}
+                    onChange={this.handleInputChange}
                   />
                 </FormGroup>
               </Col>
@@ -89,8 +110,11 @@ export default class AddBox extends Component {
                   <ControlLabel>Length (in)</ControlLabel>
                   <FormControl
                     type="number"
+                    step={1 / 16}
                     placeholder="Length"
-                    inputRef={length => (this.length = length)}
+                    name="length"
+                    value={this.state.length}
+                    onChange={this.handleInputChange}
                   />
                 </FormGroup>
               </Col>
@@ -99,8 +123,11 @@ export default class AddBox extends Component {
                   <ControlLabel>Height (in)</ControlLabel>
                   <FormControl
                     type="number"
+                    step={1 / 16}
                     placeholder="Height"
-                    inputRef={height => (this.height = height)}
+                    name="height"
+                    value={this.state.height}
+                    onChange={this.handleInputChange}
                   />
                 </FormGroup>
               </Col>
