@@ -1,9 +1,15 @@
 import React, { Component } from "react";
 import { Col, ListGroup, ListGroupItem } from "react-bootstrap";
+import styled from "styled-components";
 import { database } from "../../utils/firebase";
 import Box from "../Box";
 import AddItem from "../AddItem";
 
+const ItemList = styled(ListGroup)`
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+`;
 export default class Items extends Component {
   constructor() {
     super();
@@ -75,11 +81,11 @@ export default class Items extends Component {
           <AddItem boxId={this.state.box.key} addItem={this.addItem} />
         )}
         {this.state.items && (
-          <ListGroup>
+          <ItemList>
             {this.state.items.map(item => (
               <ListGroupItem key={item.key}>{item.name}</ListGroupItem>
             ))}
-          </ListGroup>
+          </ItemList>
         )}
       </Col>
     );
