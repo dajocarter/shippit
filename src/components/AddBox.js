@@ -11,6 +11,8 @@ import {
 
 const Container = styled.div`
   display: flex;
+  justify-content: flex-start;
+  align-items: center;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;

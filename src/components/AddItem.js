@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { FormGroup, ControlLabel, FormControl, Button } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  FormGroup,
+  ControlLabel,
+  FormControl,
+  Button
+} from "react-bootstrap";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -16,16 +23,19 @@ const Container = styled.div`
 `;
 
 const BoxContent = styled.div`
-  flex: 0 1 auto;
+  flex: 1 1 auto;
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 `;
 
 const BoxTitle = styled.h3`
   margin-top: 0;
+`;
+
+const Form = styled.form`
+  width: 100%;
 `;
 
 export default class AddItem extends Component {
@@ -43,8 +53,8 @@ export default class AddItem extends Component {
     return (
       <Container>
         <BoxContent>
-          <BoxTitle>Add An Item</BoxTitle>
-          <form
+          <BoxTitle>Add an Item</BoxTitle>
+          <Form
             ref={form => (this.itemForm = form)}
             onSubmit={e => this.createItem(e)}
           >
@@ -56,8 +66,14 @@ export default class AddItem extends Component {
                 inputRef={name => (this.name = name)}
               />
             </FormGroup>
-            <Button type="submit">Submit</Button>
-          </form>
+            <Row>
+              <Col xs={6} xsOffset={3}>
+                <Button type="submit" bsStyle="success" block>
+                  Submit
+                </Button>
+              </Col>
+            </Row>
+          </Form>
         </BoxContent>
       </Container>
     );
