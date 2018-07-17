@@ -77,11 +77,13 @@ export default class Items extends Component {
               showingItems={true}
             />
           )}
-        {this.state.box && (
-          <AddItem boxId={this.state.box.key} addItem={this.addItem} />
-        )}
         {this.state.items && (
           <ItemList>
+            {this.state.box && (
+              <ListGroupItem>
+                <AddItem boxId={this.state.box.key} addItem={this.addItem} />
+              </ListGroupItem>
+            )}
             {this.state.items.map(item => (
               <ListGroupItem key={item.key}>{item.name}</ListGroupItem>
             ))}

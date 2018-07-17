@@ -1,41 +1,27 @@
 import React, { Component } from "react";
-import {
-  Row,
-  Col,
-  FormGroup,
-  ControlLabel,
-  FormControl,
-  Button
-} from "react-bootstrap";
+import { Form, FormGroup, FormControl, Button } from "react-bootstrap";
 import styled from "styled-components";
 
-const Container = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 3px;
-  box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px;
-  margin-bottom: 2rem;
-`;
-
-const BoxContent = styled.div`
-  flex: 1 1 auto;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const BoxTitle = styled.h3`
-  margin-top: 0;
-`;
-
-const Form = styled.form`
+const InlineForm = styled(Form)`
   width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+`;
+
+const InputWrapper = styled(FormGroup)`
+  margin: 0;
+  width: calc(100% - 95px);
+`;
+
+const Input = styled(FormControl)`
+  && {
+    width: 100%;
+  }
+`;
+
+const SubmitButton = styled(Button)`
+  margin-left: 1rem;
 `;
 
 export default class AddItem extends Component {
@@ -51,31 +37,22 @@ export default class AddItem extends Component {
 
   render() {
     return (
-      <Container>
-        <BoxContent>
-          <BoxTitle>Add an Item</BoxTitle>
-          <Form
-            ref={form => (this.itemForm = form)}
-            onSubmit={e => this.createItem(e)}
-          >
-            <FormGroup controlId="name">
-              <ControlLabel>Name</ControlLabel>
-              <FormControl
-                type="text"
-                placeholder="Name of item"
-                inputRef={name => (this.name = name)}
-              />
-            </FormGroup>
-            <Row>
-              <Col xs={6} xsOffset={3}>
-                <Button type="submit" bsStyle="success" block>
-                  Submit
-                </Button>
-              </Col>
-            </Row>
-          </Form>
-        </BoxContent>
-      </Container>
+      <InlineForm
+        inline
+        ref={form => (this.itemForm = form)}
+        onSubmit={e => this.createItem(e)}
+      >
+        <InputWrapper controlId="name">
+          <Input
+            type="text"
+            placeholder="Describe your item"
+            inputRef={name => (this.name = name)}
+          />
+        </InputWrapper>
+        <SubmitButton type="submit" bsStyle="success">
+          Add Item
+        </SubmitButton>
+      </InlineForm>
     );
   }
 }
