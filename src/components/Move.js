@@ -23,6 +23,7 @@ const BoxTitle = styled.h1`
 
 const Details = styled.div`
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
 `;
