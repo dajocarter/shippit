@@ -11,8 +11,6 @@ import {
 
 const Container = styled.div`
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
@@ -23,11 +21,10 @@ const Container = styled.div`
 `;
 
 const BoxContent = styled.div`
-  flex: 0 1 auto;
+  flex: 1 1 auto;
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 `;
 

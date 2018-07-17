@@ -6,8 +6,7 @@ import { faBoxCheck, faBoxOpen } from "@fortawesome/fontawesome-pro-light";
 
 const Container = styled.div`
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
+  flex-wrap: wrap;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
@@ -17,12 +16,24 @@ const Container = styled.div`
   margin: ${props => (props.showingItems ? `2rem auto` : `0 auto 2rem`)};
 `;
 
+const BoxContent = styled.div`
+  flex: 1 1 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const BoxImage = styled.div`
-  flex: 0 0 auto;
+  flex: 1 0 30%;
   width: 200px;
+  padding: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  @media (max-width: 480px) {
+    flex: 1 0 100%;
+  }
 `;
 
 const FAicon = styled(FontAwesomeIcon)`
@@ -30,17 +41,13 @@ const FAicon = styled(FontAwesomeIcon)`
   color: ${props => props.color};
 `;
 
-const BoxContent = styled.div`
-  flex: 0 1 auto;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
-`;
-
 const BoxInfo = styled.div`
-  flex: 0 0 auto;
+  flex: 2 0 70%;
+  padding: 1rem;
+  @media (max-width: 480px) {
+    flex: 1 0 100%;
+    text-align: center;
+  }
 `;
 
 const BoxTitle = styled.h3`
@@ -52,9 +59,10 @@ const BoxDetails = styled.p``;
 const Detail = styled.strong``;
 
 const BoxActions = styled.div`
-  flex: 0 0 auto;
+  flex: 1 1 auto;
   display: flex;
-  justify-content: flex-start;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
 `;
 
@@ -63,13 +71,10 @@ const Action = styled.span`
   border-radius: 3px;
   box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px;
   flex: 0 0 auto;
+  margin: 0 1rem 1rem;
   padding: 1rem;
   cursor: pointer;
   color: ${props => props.color};
-
-  &:not(:first-child) {
-    margin-left: 1rem;
-  }
 `;
 
 const ActionLink = styled(Link)`
@@ -92,13 +97,13 @@ const Box = props => {
 
   return (
     <Container showingItems={props.showingItems}>
-      <BoxImage>
-        <FAicon
-          icon={box.closed ? faBoxCheck : faBoxOpen}
-          color={box.closed ? `green` : `blue`}
-        />
-      </BoxImage>
       <BoxContent>
+        <BoxImage>
+          <FAicon
+            icon={box.closed ? faBoxCheck : faBoxOpen}
+            color={box.closed ? `green` : `blue`}
+          />
+        </BoxImage>
         <BoxInfo>
           <BoxTitle>{box.name}</BoxTitle>
           <BoxDetails>
@@ -109,48 +114,42 @@ const Box = props => {
             <Detail>{numItems}</Detail> items
           </BoxDetails>
         </BoxInfo>
-        {box.key &&
-          !props.showingItems && (
-            <div>
-              {box.closed ? (
-                <BoxActions>
-                  <Action
-                    onClick={() => props.toggleBoxStatus(box.key, false)}
-                    color={`blue`}
-                  >
-                    Open Box
-                  </Action>
-                  <Action
-                    onClick={() => props.deleteBox(box.key)}
-                    color={`red`}
-                  >
-                    Delete Box
-                  </Action>
-                </BoxActions>
-              ) : (
-                <BoxActions>
-                  <Action
-                    onClick={() => props.toggleBoxStatus(box.key, true)}
-                    color={`green`}
-                  >
-                    Close Box
-                  </Action>
-                  <Action>
-                    <ActionLink to={`boxes/${box.key}`} color={`blue`}>
-                      Edit Items
-                    </ActionLink>
-                  </Action>
-                  <Action
-                    onClick={() => props.deleteBox(box.key)}
-                    color={`red`}
-                  >
-                    Delete Box
-                  </Action>
-                </BoxActions>
-              )}
-            </div>
-          )}
       </BoxContent>
+      {box.key &&
+        !props.showingItems && (
+          <BoxContent>
+            {box.closed ? (
+              <BoxActions>
+                <Action
+                  onClick={() => props.toggleBoxStatus(box.key, false)}
+                  color={`blue`}
+                >
+                  Open Box
+                </Action>
+                <Action onClick={() => props.deleteBox(box.key)} color={`red`}>
+                  Delete Box
+                </Action>
+              </BoxActions>
+            ) : (
+              <BoxActions>
+                <Action
+                  onClick={() => props.toggleBoxStatus(box.key, true)}
+                  color={`green`}
+                >
+                  Close Box
+                </Action>
+                <Action>
+                  <ActionLink to={`boxes/${box.key}`} color={`blue`}>
+                    Edit Items
+                  </ActionLink>
+                </Action>
+                <Action onClick={() => props.deleteBox(box.key)} color={`red`}>
+                  Delete Box
+                </Action>
+              </BoxActions>
+            )}
+          </BoxContent>
+        )}
     </Container>
   );
 };
