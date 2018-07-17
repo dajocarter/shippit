@@ -16,7 +16,7 @@ const Container = styled.div`
 `;
 
 const BoxContent = styled.div`
-  flex: 1 0 auto;
+  flex: 0 1 auto;
   padding: 1rem;
   display: flex;
   flex-direction: column;
