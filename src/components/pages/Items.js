@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { Col, ListGroup, ListGroupItem } from "react-bootstrap";
 import styled from "styled-components";
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import { faEdit, faTrashAlt } from "@fortawesome/fontawesome-pro-light";
 import { database } from "../../utils/firebase";
 import Box from "../Box";
+import Item from "../Item";
 import AddItem from "../AddItem";
 
 const ItemList = styled(ListGroup)`
@@ -15,30 +14,12 @@ const ItemList = styled(ListGroup)`
 
 const FormItem = styled(ListGroupItem)``;
 
-const Item = styled(ListGroupItem)`
-  font-weight: bold;
-  position: relative;
-  padding-right: 72px;
-`;
-
-const Icons = styled.span`
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-`;
-
-const FAicon = styled(FontAwesomeIcon)`
-  cursor: pointer;
-  color: ${props => props.color}
-  font-size: 1.75rem;
-  margin-right: 1.6rem;
-`;
 export default class Items extends Component {
   constructor() {
     super();
 
     this.addItem = this.addItem.bind(this);
+    this.deleteItem = this.deleteItem.bind(this);
   }
 
   state = { items: [], loading: true };
@@ -114,17 +95,7 @@ export default class Items extends Component {
               </FormItem>
             )}
             {this.state.items.map(item => (
-              <Item key={item.key}>
-                {item.name}{" "}
-                <Icons>
-                  <FAicon icon={faEdit} color={`blue`} />{" "}
-                  <FAicon
-                    icon={faTrashAlt}
-                    color={`red`}
-                    onClick={() => this.deleteItem(item.key)}
-                  />
-                </Icons>
-              </Item>
+              <Item key={item.key} item={item} deleteItem={this.deleteItem} />
             ))}
           </ItemList>
         )}
