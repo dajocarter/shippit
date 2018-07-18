@@ -78,8 +78,16 @@ const Action = styled.span`
 `;
 
 const ActionLink = styled(Link)`
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px;
+  flex: 0 0 auto;
+  margin: 0 1rem 1rem;
+  padding: 1rem;
+  cursor: pointer;
   color: ${props => props.color};
   &:hover {
+    color: ${props => props.color};
     text-decoration: none;
   }
 `;
@@ -138,11 +146,9 @@ const Box = props => {
                 >
                   Close Box
                 </Action>
-                <Action>
-                  <ActionLink to={`boxes/${box.key}`} color={`blue`}>
-                    Edit Items
-                  </ActionLink>
-                </Action>
+                <ActionLink to={`boxes/${box.key}`} color={`blue`}>
+                  Edit Items
+                </ActionLink>
                 <Action onClick={() => props.deleteBox(box.key)} color={`red`}>
                   Delete Box
                 </Action>
