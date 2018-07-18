@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Col, ListGroup, ListGroupItem } from "react-bootstrap";
 import styled from "styled-components";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import { faEdit, faTrashAlt } from "@fortawesome/fontawesome-pro-light";
 import { database } from "../../utils/firebase";
 import Box from "../Box";
 import AddItem from "../AddItem";
@@ -9,6 +11,28 @@ const ItemList = styled(ListGroup)`
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+`;
+
+const FormItem = styled(ListGroupItem)``;
+
+const Item = styled(ListGroupItem)`
+  font-weight: bold;
+  position: relative;
+  padding-right: 72px;
+`;
+
+const Icons = styled.span`
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+`;
+
+const FAicon = styled(FontAwesomeIcon)`
+  cursor: pointer;
+  color: ${props => props.color}
+  font-size: 1.75rem;
+  margin-right: 1.6rem;
 `;
 export default class Items extends Component {
   constructor() {
@@ -80,12 +104,18 @@ export default class Items extends Component {
         {this.state.items && (
           <ItemList>
             {this.state.box && (
-              <ListGroupItem>
+              <FormItem>
                 <AddItem boxId={this.state.box.key} addItem={this.addItem} />
-              </ListGroupItem>
+              </FormItem>
             )}
             {this.state.items.map(item => (
-              <ListGroupItem key={item.key}>{item.name}</ListGroupItem>
+              <Item key={item.key}>
+                {item.name}{" "}
+                <Icons>
+                  <FAicon icon={faEdit} color={`blue`} />{" "}
+                  <FAicon icon={faTrashAlt} color={`red`} />
+                </Icons>
+              </Item>
             ))}
           </ItemList>
         )}
