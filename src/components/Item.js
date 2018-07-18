@@ -1,8 +1,9 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 import { ListGroupItem } from "react-bootstrap";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/fontawesome-pro-light";
+import EditItem from "./EditItem";
 
 const ListItem = styled(ListGroupItem)`
   font-weight: bold;
@@ -23,21 +24,47 @@ const FAicon = styled(FontAwesomeIcon)`
   font-size: 1.75rem;
   margin-right: 1.6rem;
 `;
+export default class Item extends Component {
+  constructor(props) {
+    super(props);
 
-const Item = props => {
-  return (
-    <ListItem>
-      {props.item.name}{" "}
-      <Icons>
-        <FAicon icon={faEdit} color={`blue`} />{" "}
-        <FAicon
-          icon={faTrashAlt}
-          color={`red`}
-          onClick={() => props.deleteItem(props.item.key)}
+    this.toggleEdit = this.toggleEdit.bind(this);
+  }
+
+  state = { edit: false };
+
+  toggleEdit() {
+    this.setState(prevState => ({
+      edit: !prevState.edit
+    }));
+  }
+
+  render() {
+    if (this.state.edit) {
+      return (
+        <EditItem
+          editItem={this.props.editItem}
+          toggleEdit={this.toggleEdit}
+          item={this.props.item}
         />
-      </Icons>
-    </ListItem>
-  );
-};
-
-export default Item;
+      );
+    }
+    return (
+      <ListItem>
+        {this.props.item.name}{" "}
+        <Icons>
+          <FAicon
+            icon={faEdit}
+            color={`blue`}
+            onClick={() => this.setState({ edit: true })}
+          />{" "}
+          <FAicon
+            icon={faTrashAlt}
+            color={`red`}
+            onClick={() => this.props.deleteItem(this.props.item.key)}
+          />
+        </Icons>
+      </ListItem>
+    );
+  }
+}

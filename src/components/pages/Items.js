@@ -19,6 +19,7 @@ export default class Items extends Component {
     super();
 
     this.addItem = this.addItem.bind(this);
+    this.editItem = this.editItem.bind(this);
     this.deleteItem = this.deleteItem.bind(this);
   }
 
@@ -71,6 +72,11 @@ export default class Items extends Component {
     db.child(`${this.props.uid}`).push(item);
   }
 
+  editItem(key, name) {
+    const db = database().ref(`items`);
+    db.child(`${this.props.uid}/${key}`).update({ name });
+  }
+
   deleteItem(itemKey) {
     const db = database().ref(`items`);
     db.child(`${this.props.uid}/${itemKey}`).remove();
@@ -95,7 +101,12 @@ export default class Items extends Component {
               </FormItem>
             )}
             {this.state.items.map(item => (
-              <Item key={item.key} item={item} deleteItem={this.deleteItem} />
+              <Item
+                key={item.key}
+                item={item}
+                editItem={this.editItem}
+                deleteItem={this.deleteItem}
+              />
             ))}
           </ItemList>
         )}
