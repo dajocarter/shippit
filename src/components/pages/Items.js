@@ -90,6 +90,11 @@ export default class Items extends Component {
     db.child(`${this.props.uid}`).push(item);
   }
 
+  deleteItem(itemKey) {
+    const db = database().ref(`items`);
+    db.child(`${this.props.uid}/${itemKey}`).remove();
+  }
+
   render() {
     return (
       <Col xs={12}>
@@ -113,7 +118,11 @@ export default class Items extends Component {
                 {item.name}{" "}
                 <Icons>
                   <FAicon icon={faEdit} color={`blue`} />{" "}
-                  <FAicon icon={faTrashAlt} color={`red`} />
+                  <FAicon
+                    icon={faTrashAlt}
+                    color={`red`}
+                    onClick={() => this.deleteItem(item.key)}
+                  />
                 </Icons>
               </Item>
             ))}
