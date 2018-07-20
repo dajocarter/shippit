@@ -41,9 +41,9 @@ const Move = ({ boxes, items }) => {
   const boxesData = Array.from(boxes).reduce(
     (allBoxes, currentBox) => {
       allBoxes["totalBoxes"]++;
-      allBoxes["totalHeight"] += parseFloat(currentBox["height"]);
-      allBoxes["totalLength"] += parseFloat(currentBox["length"]);
-      allBoxes["totalWidth"] += parseFloat(currentBox["width"]);
+      allBoxes["totalHeight"] += currentBox["height"];
+      allBoxes["totalLength"] += currentBox["length"];
+      allBoxes["totalWidth"] += currentBox["width"];
       return allBoxes;
     },
     {

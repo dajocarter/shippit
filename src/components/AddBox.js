@@ -61,9 +61,9 @@ export default class AddBox extends Component {
     const { name, height, length, width } = this.state;
     const box = {
       name,
-      height,
-      length,
-      width,
+      height: parseFloat(height),
+      length: parseFloat(length),
+      width: parseFloat(width),
       closed: false
     };
     this.props.addBox(box);
