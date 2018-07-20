@@ -45,25 +45,20 @@ const Header = props => (
     <Navbar.Brand>
       <Link to="/">Shippit</Link>
     </Navbar.Brand>
-    {props.authed ? (
-      <Navigation pullRight role={`navigation`}>
+    <Navigation pullRight role={`navigation`}>
+      {props.authed && (
         <NavItem>
           <Link to="/boxes">Boxes</Link>
         </NavItem>
-        <NavItem>
+      )}
+      <NavItem>
+        {props.authed ? (
           <LogoutButton onClick={props.logout}>Logout</LogoutButton>
-        </NavItem>
-      </Navigation>
-    ) : (
-      <Navigation pullRight role={`navigation`}>
-        <NavItem>
+        ) : (
           <Link to="/login">Login</Link>
-        </NavItem>
-        <NavItem>
-          <Link to="/register">Register</Link>
-        </NavItem>
-      </Navigation>
-    )}
+        )}
+      </NavItem>
+    </Navigation>
   </SiteHeader>
 );
 
