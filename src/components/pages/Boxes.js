@@ -21,11 +21,12 @@ export default class Boxes extends Component {
 
   componentDidMount() {
     const db = database();
-    const userBoxes = db
+
+    this.boxesRef = db
       .ref(`boxes`)
       .child(`${this.props.uid}`)
       .orderByChild("closed");
-    userBoxes.on("value", snapshot => {
+    this.boxesRef.on("value", snapshot => {
       let boxes = [];
       if (snapshot.exists()) {
         snapshot.forEach(childSnapshot => {
@@ -39,11 +40,12 @@ export default class Boxes extends Component {
         this.setState({ loading: false });
       }
     });
-    const userItems = db
+
+    this.itemsRef = db
       .ref(`items`)
       .child(`${this.props.uid}`)
       .orderByChild("box");
-    userItems.on("value", snapshot => {
+    this.itemsRef.on("value", snapshot => {
       let items = [];
       if (snapshot.exists()) {
         snapshot.forEach(childSnapshot => {
@@ -57,6 +59,11 @@ export default class Boxes extends Component {
         this.setState({ loading: false });
       }
     });
+  }
+
+  componentWillUnmount() {
+    this.boxesRef.off();
+    this.itemsRef.off();
   }
 
   addBox(box) {

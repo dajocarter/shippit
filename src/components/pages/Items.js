@@ -29,32 +29,38 @@ export default class Items extends Component {
   componentDidMount() {
     const db = database();
 
-    db.ref(`boxes/${this.props.uid}/${this.props.match.params.boxId}`)
-      .once("value")
-      .then(snap => {
-        const key = snap.key;
-        const data = snap.val();
-        const box = { key, ...data };
-        this.setState({ box });
-      });
+    const boxRef = db.ref(
+      `boxes/${this.props.uid}/${this.props.match.params.boxId}`
+    );
+    boxRef.once("value").then(snap => {
+      const key = snap.key;
+      const data = snap.val();
+      const box = { key, ...data };
+      this.setState({ box });
+    });
 
-    db.ref(`items/${this.props.uid}`)
+    this.itemsRef = db
+      .ref(`items/${this.props.uid}`)
       .orderByChild("box")
-      .equalTo(this.props.match.params.boxId)
-      .on("value", snapshot => {
-        let items = [];
-        if (snapshot.exists()) {
-          snapshot.forEach(childSnapshot => {
-            const key = childSnapshot.key;
-            const data = childSnapshot.val();
-            const item = { key, ...data };
-            items.push(item);
-          });
-          this.setState({ loading: false, items });
-        } else {
-          this.setState({ loading: false });
-        }
-      });
+      .equalTo(this.props.match.params.boxId);
+    this.itemsRef.on("value", snapshot => {
+      let items = [];
+      if (snapshot.exists()) {
+        snapshot.forEach(childSnapshot => {
+          const key = childSnapshot.key;
+          const data = childSnapshot.val();
+          const item = { key, ...data };
+          items.push(item);
+        });
+        this.setState({ loading: false, items });
+      } else {
+        this.setState({ loading: false });
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this.itemsRef.off();
   }
 
   addItem(item) {
