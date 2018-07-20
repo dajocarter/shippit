@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import {
   Col,
   FormGroup,
@@ -9,7 +8,7 @@ import {
 } from "react-bootstrap";
 import { auth } from "../../utils/firebase";
 
-export default class Login extends Component {
+export default class ResetPassword extends Component {
   constructor(props) {
     super(props);
 
@@ -19,10 +18,8 @@ export default class Login extends Component {
 
   state = {
     email: "",
-    password: "",
     feedback: null,
-    emailValidity: null,
-    passwordValidity: null
+    validationState: null
   };
 
   handleChange(event) {
@@ -32,34 +29,27 @@ export default class Login extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
+
     auth()
-      .signInWithEmailAndPassword(this.state.email, this.state.password)
+      .sendPasswordResetEmail(this.state.email)
+      .then(() =>
+        this.setState({
+          feedback: `Password reset email was set to ${this.state.email}.`,
+          validationState: "success"
+        })
+      )
       .catch(error => {
         switch (error.code) {
           case "auth/invalid-email":
             this.setState({
               feedback: "The given email is not valid.",
-              emailValidity: "error"
-            });
-            break;
-          case "auth/user-disabled":
-            this.setState({
-              feedback:
-                "The user corresponding to the given email has been diabled.",
-              emailValidity: "error"
+              validationState: "error"
             });
             break;
           case "auth/user-not-found":
             this.setState({
               feedback: "There is no user corresponding to the given email.",
-              emailValidity: "error"
-            });
-            break;
-          case "auth/wrong-password":
-            this.setState({
-              feedback: "The password does not match the given email.",
-              emailValidity: "error",
-              passwordValidity: "error"
+              validationState: "error"
             });
             break;
           default:
@@ -70,11 +60,15 @@ export default class Login extends Component {
   render() {
     return (
       <Col sm={6} smOffset={3}>
-        <h1>Login</h1>
+        <h1>Shippit</h1>
+        <p>
+          Please enter your email address. You will receive a link to create a
+          new password via email.
+        </p>
         <form onSubmit={this.handleSubmit}>
           <FormGroup
             controlId="email"
-            validationState={this.state.emailValidity}
+            validationState={this.state.validationState}
           >
             <ControlLabel>Email</ControlLabel>
             <FormControl
@@ -85,22 +79,15 @@ export default class Login extends Component {
               onChange={this.handleChange}
             />
           </FormGroup>
-          <FormGroup
-            controlId="password"
-            validationState={this.state.passwordValidity}
-          >
-            <ControlLabel>Password</ControlLabel>
-            <FormControl
-              type="password"
-              placeholder="Password
-            "
-              name="password"
-              value={this.state.value}
-              onChange={this.handleChange}
-            />
-          </FormGroup>
           {this.state.feedback && (
-            <div className="alert alert-danger" role="alert">
+            <div
+              className={
+                this.state.validationState === "success"
+                  ? `alert alert-success`
+                  : `alert alert-danger`
+              }
+              role="alert"
+            >
               <span
                 className="glyphicon glyphicon-exclamation-sign"
                 aria-hidden="true"
@@ -109,9 +96,8 @@ export default class Login extends Component {
               &nbsp;{this.state.feedback}
             </div>
           )}
-          <Link to={`reset-password`}>Lost your password?</Link>
           <Button type="submit" bsStyle="primary">
-            Login
+            Get New Password
           </Button>
         </form>
       </Col>

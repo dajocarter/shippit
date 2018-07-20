@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { Route, BrowserRouter, Redirect, Switch } from "react-router-dom";
 import { Grid, Row } from "react-bootstrap";
+import ResetPassword from "./pages/ResetPassword";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
@@ -79,6 +80,11 @@ export default class App extends Component {
             <Row>
               <Switch>
                 <Route path="/" exact component={Home} />
+                <PublicRoute
+                  authed={this.state.authed}
+                  path="/reset-password"
+                  component={ResetPassword}
+                />
                 <PublicRoute
                   authed={this.state.authed}
                   path="/login"
