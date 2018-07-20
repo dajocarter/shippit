@@ -53,7 +53,6 @@ export default class AddBox extends Component {
 
   handleInputChange(event) {
     const { name, value } = event.target;
-    console.table({ name, value });
     this.setState({ [name]: value });
   }
 
