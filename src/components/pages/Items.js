@@ -41,27 +41,16 @@ export default class Items extends Component {
     db.ref(`items/${this.props.uid}`)
       .orderByChild("box")
       .equalTo(this.props.match.params.boxId)
-      .on("value", snap => {
+      .on("value", snapshot => {
         let items = [];
-        if (snap.exists()) {
-          snap.forEach(item => {
-            const itemRef = db
-              .ref(`items`)
-              .child(`${this.props.uid}/${item.key}`);
-            itemRef
-              .once("value", itemSnapshot => {
-                let itemData = itemSnapshot.val();
-                itemData["key"] = item.key;
-                items.push(itemData);
-              })
-              .then(() => {
-                this.setState({
-                  items,
-                  loading: false
-                });
-              })
-              .catch(error => console.log(error));
+        if (snapshot.exists()) {
+          snapshot.forEach(childSnapshot => {
+            const key = childSnapshot.key;
+            const data = childSnapshot.val();
+            const item = { key, ...data };
+            items.push(item);
           });
+          this.setState({ loading: false, items });
         } else {
           this.setState({ loading: false });
         }
