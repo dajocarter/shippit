@@ -69,13 +69,36 @@ const BoxActions = styled.div`
 
 const Action = styled.span`
   border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 3px;
+  border-radius: 4px;
   box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px;
   flex: 0 0 auto;
   margin: 0 1rem 1rem;
   padding: 1rem;
   cursor: pointer;
-  color: ${props => props.color};
+  color: ${props =>
+    props.color === "green"
+      ? `#5cb85c`
+      : props.color === "red"
+        ? `#d9534f`
+        : `#337ab7`};
+  border-color: ${props =>
+    props.color === "green"
+      ? `#4cae4c`
+      : props.color === "red"
+        ? `#d43f3a`
+        : `#2e6da4`};
+  transition: all 0.25s ease;
+
+  &:hover,
+  &:focus {
+    color: #fff;
+    background-color: ${props =>
+      props.color === "green"
+        ? `#5cb85c`
+        : props.color === "red"
+          ? `#d9534f`
+          : `#337ab7`};
+  }
 `;
 
 const ActionLink = styled(Link)`
@@ -86,9 +109,26 @@ const ActionLink = styled(Link)`
   margin: 0 1rem 1rem;
   padding: 1rem;
   cursor: pointer;
-  color: ${props => props.color};
+  color: ${props =>
+    props.color === "green"
+      ? `#5cb85c`
+      : props.color === "red"
+        ? `#d9534f`
+        : `#337ab7`};
+  border-color: ${props =>
+    props.color === "green"
+      ? `#4cae4c`
+      : props.color === "red"
+        ? `#d43f3a`
+        : `#2e6da4`};
   &:hover {
-    color: ${props => props.color};
+    color: #fff;
+    background-color: ${props =>
+      props.color === "green"
+        ? `#5cb85c`
+        : props.color === "red"
+          ? `#d9534f`
+          : `#337ab7`};
     text-decoration: none;
   }
 `;
