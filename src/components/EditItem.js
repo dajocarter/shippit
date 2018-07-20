@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import {
   ListGroupItem,
@@ -76,3 +77,13 @@ export default class EditItem extends Component {
     );
   }
 }
+
+EditItem.propTypes = {
+  editItem: PropTypes.func.isRequired,
+  item: PropTypes.shape({
+    box: PropTypes.string.isRequired,
+    key: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+  }).isRequired,
+  toggleEdit: PropTypes.func.isRequired
+};

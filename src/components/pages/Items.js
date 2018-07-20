@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Col, ListGroup, ListGroupItem } from "react-bootstrap";
 import styled from "styled-components";
 import { database } from "../../utils/firebase";
@@ -114,3 +115,7 @@ export default class Items extends Component {
     );
   }
 }
+
+Items.propTypes = {
+  uid: PropTypes.string.isRequired
+};

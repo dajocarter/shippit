@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { database } from "../../utils/firebase";
 import { Col } from "react-bootstrap";
 
@@ -104,3 +105,7 @@ export default class Boxes extends Component {
     );
   }
 }
+
+Boxes.propTypes = {
+  uid: PropTypes.string.isRequired
+};

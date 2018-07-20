@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Form, FormGroup, FormControl, Button } from "react-bootstrap";
 import styled from "styled-components";
 
@@ -69,3 +70,8 @@ export default class AddItem extends Component {
     );
   }
 }
+
+AddItem.propTypes = {
+  addItem: PropTypes.func.isRequired,
+  boxId: PropTypes.string.isRequired
+};

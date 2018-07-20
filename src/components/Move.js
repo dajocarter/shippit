@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import {
@@ -84,3 +85,14 @@ const Move = ({ boxes, items }) => {
 };
 
 export default Move;
+
+Move.propTypes = {
+  boxes: PropTypes.arrayOf(
+    PropTypes.shape({
+      height: PropTypes.number.isRequired,
+      length: PropTypes.number.isRequired,
+      width: PropTypes.number.isRequired
+    })
+  ).isRequired,
+  items: PropTypes.arrayOf(PropTypes.object).isRequired
+};

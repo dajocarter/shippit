@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
@@ -161,3 +162,18 @@ const Box = props => {
 };
 
 export default Box;
+
+Box.propTypes = {
+  deleteBox: PropTypes.func,
+  box: PropTypes.shape({
+    closed: PropTypes.bool.isRequired,
+    height: PropTypes.number.isRequired,
+    key: PropTypes.string.isRequired,
+    length: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    width: PropTypes.number.isRequired
+  }),
+  items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  showingItems: PropTypes.bool.isRequired,
+  toggleBoxStatus: PropTypes.func
+};

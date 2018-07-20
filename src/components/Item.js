@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { ListGroupItem } from "react-bootstrap";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
@@ -68,3 +69,13 @@ export default class Item extends Component {
     );
   }
 }
+
+Item.propTypes = {
+  editItem: PropTypes.func.isRequired,
+  deleteItem: PropTypes.func.isRequired,
+  item: PropTypes.shape({
+    box: PropTypes.string.isRequired,
+    key: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+  }).isRequired
+};
