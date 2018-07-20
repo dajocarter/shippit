@@ -9,31 +9,63 @@ import {
 import { auth, database } from "../../utils/firebase";
 
 export default class Register extends Component {
-  state = { feedback: null, validationState: null };
+  constructor(props) {
+    super(props);
 
-  handleSubmit = e => {
-    e.preventDefault();
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  state = {
+    email: "",
+    password: "",
+    feedback: null,
+    emailValidity: null,
+    passwordValidity: null
+  };
+
+  handleChange(event) {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+
     auth()
-      .createUserWithEmailAndPassword(this.email.value, this.password.value)
+      .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(({ user: { email, uid } }) => {
-        console.log(`User created`);
-
-        const usersRef = database()
+        database()
           .ref("users")
-          .child(uid);
-
-        usersRef
-          .set({ email })
-          .then(() => {
-            console.log("user added to database");
-          })
-          .catch(error => console.log(`Error adding user to database`, error));
+          .child(uid)
+          .set({ email });
       })
       .catch(error => {
-        console.log(error);
-        this.setState({ feedback: error.message, validationState: error });
+        switch (error.code) {
+          case "auth/email-already-in-use":
+            this.setState({
+              feedback: error.message,
+              emailValidity: "error"
+            });
+            break;
+          case "auth/invalid-email":
+            this.setState({
+              feedback: error.message,
+              emailValidity: "error"
+            });
+            break;
+          case "auth/weak-password":
+            this.setState({
+              feedback: error.message,
+              passwordValidity: "error"
+            });
+            break;
+          default:
+            this.setState({ feedback: error.message });
+        }
       });
-  };
+  }
+
   render() {
     return (
       <Col sm={6} smOffset={3}>
@@ -41,27 +73,31 @@ export default class Register extends Component {
         <form onSubmit={this.handleSubmit}>
           <FormGroup
             controlId="email"
-            validationState={this.state.validationState}
+            validationState={this.state.emailValidity}
           >
             <ControlLabel>Email</ControlLabel>
             <FormControl
               type="email"
               placeholder="Email"
-              inputRef={email => (this.email = email)}
+              name="email"
+              value={this.state.email}
+              onChange={this.handleChange}
             />
           </FormGroup>
           <FormGroup
             controlId="password"
-            validationState={this.state.validationState}
+            validationState={this.state.passwordValidity}
           >
             <ControlLabel>Password</ControlLabel>
             <FormControl
               type="password"
               placeholder="Password"
-              inputRef={password => (this.password = password)}
+              name="password"
+              value={this.state.password}
+              onChange={this.handleChange}
             />
           </FormGroup>
-          {this.state.validationState && (
+          {this.state.feedback && (
             <div className="alert alert-danger" role="alert">
               <span
                 className="glyphicon glyphicon-exclamation-sign"
