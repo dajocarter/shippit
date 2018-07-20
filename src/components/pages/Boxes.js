@@ -91,9 +91,9 @@ export default class Boxes extends Component {
     return (
       <Col xs={12}>
         <Move boxes={boxes} items={items} />
-        {boxes.length ? (
+        <AddBox addBox={this.addBox} />
+        {this.state.boxes && (
           <div>
-            <AddBox addBox={this.addBox} />
             {boxes.map(box => (
               <Box
                 key={box.key}
@@ -105,8 +105,6 @@ export default class Boxes extends Component {
               />
             ))}
           </div>
-        ) : (
-          <Box showingItems={false} />
         )}
       </Col>
     );

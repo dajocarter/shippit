@@ -93,51 +93,6 @@ const ActionLink = styled(Link)`
   }
 `;
 
-const renderBoxActions = props => {
-  if (props.showingItems) {
-    return;
-  }
-
-  const { box = {} } = props;
-
-  return box.key ? (
-    <BoxContent>
-      {box.closed ? (
-        <BoxActions>
-          <Action
-            onClick={() => props.toggleBoxStatus(box.key, false)}
-            color={`blue`}
-          >
-            Open Box
-          </Action>
-          <Action onClick={() => props.deleteBox(box.key)} color={`red`}>
-            Delete Box
-          </Action>
-        </BoxActions>
-      ) : (
-        <BoxActions>
-          <Action
-            onClick={() => props.toggleBoxStatus(box.key, true)}
-            color={`green`}
-          >
-            Close Box
-          </Action>
-          <ActionLink to={`boxes/${box.key}`} color={`blue`}>
-            Edit Items
-          </ActionLink>
-          <Action onClick={() => props.deleteBox(box.key)} color={`red`}>
-            Delete Box
-          </Action>
-        </BoxActions>
-      )}
-    </BoxContent>
-  ) : (
-    <BoxActions>
-      <Action color={`green`}>Start Packing</Action>
-    </BoxActions>
-  );
-};
-
 const Box = props => {
   let numItems = 0;
   if (props.items) {
@@ -169,7 +124,39 @@ const Box = props => {
           </BoxDetails>
         </BoxInfo>
       </BoxContent>
-      {renderBoxActions(props)}
+      {box.key &&
+        !props.showingItems && (
+          <BoxContent>
+            {box.closed ? (
+              <BoxActions>
+                <Action
+                  onClick={() => props.toggleBoxStatus(box.key, false)}
+                  color={`blue`}
+                >
+                  Open Box
+                </Action>
+                <Action onClick={() => props.deleteBox(box.key)} color={`red`}>
+                  Delete Box
+                </Action>
+              </BoxActions>
+            ) : (
+              <BoxActions>
+                <Action
+                  onClick={() => props.toggleBoxStatus(box.key, true)}
+                  color={`green`}
+                >
+                  Close Box
+                </Action>
+                <ActionLink to={`boxes/${box.key}`} color={`blue`}>
+                  Edit Items
+                </ActionLink>
+                <Action onClick={() => props.deleteBox(box.key)} color={`red`}>
+                  Delete Box
+                </Action>
+              </BoxActions>
+            )}
+          </BoxContent>
+        )}
     </Container>
   );
 };
@@ -189,15 +176,4 @@ Box.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object),
   showingItems: PropTypes.bool.isRequired,
   toggleBoxStatus: PropTypes.func
-};
-
-Box.defaultProps = {
-  box: {
-    closed: false,
-    height: 0,
-    key: "",
-    length: 0,
-    name: "Your first box",
-    width: 0
-  }
 };
