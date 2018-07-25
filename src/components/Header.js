@@ -26,7 +26,9 @@ const LogoLink = styled(NavLink)`
   && {
     color: #fff !important;
     float: left;
-    display: inline - block;
+    display: inline-block;
+    line-height: 25px;
+
     &: hover,
     &: focus {
       color: #ccc !important;
@@ -38,6 +40,10 @@ const LogoLink = styled(NavLink)`
     &: focus {
         color: #ccc !important;
       }
+    }
+
+    @media (min-width: 768px) {
+      line-height: 20px;
     }
   }
 `;
