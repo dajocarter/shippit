@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { Route, BrowserRouter, Redirect, Switch } from "react-router-dom";
 import { Grid, Row } from "react-bootstrap";
+import { injectGlobal } from "styled-components";
 import ResetPassword from "./pages/ResetPassword";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -11,6 +12,12 @@ import Items from "./pages/Items";
 import Header from "./Header";
 import Loading from "./Loading";
 import { auth } from "../utils/firebase";
+
+injectGlobal`
+body {
+  background-color: #efefef;
+}
+`;
 
 function PrivateRoute({ component: Component, authed, ...rest }) {
   return (
@@ -74,7 +81,7 @@ export default class App extends Component {
       <Loading />
     ) : (
       <BrowserRouter>
-        <div style={{ backgroundColor: `#efefef` }}>
+        <div>
           <Header authed={this.state.authed} logout={this.logout} />
           <Grid>
             <Row>
