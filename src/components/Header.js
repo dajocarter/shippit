@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { Navbar, Nav } from "react-bootstrap";
 
@@ -18,18 +18,49 @@ const Navigation = styled(Nav)`
   margin-right: -15px;
 `;
 
-const NavItem = styled.li`
+const MenuItem = styled.li`
   float: left;
 `;
 
-const NavLink = styled(Link)`
+const LogoLink = styled(NavLink)`
+  && {
+    color: #fff !important;
+    float: left;
+    display: inline - block;
+    &: hover,
+    &: focus {
+      color: #ccc !important;
+    }
+
+    &.active {
+      color: #fff !important;
+      &: hover,
+    &: focus {
+        color: #ccc !important;
+      }
+    }
+  }
+`;
+
+const MenuLink = styled(NavLink)`
   && {
     color: #fff !important;
     float: left;
     display: inline-block;
+    transition: all 0.25s ease;
+
     &:hover,
     &:focus {
       color: #ccc !important;
+    }
+
+    &.active {
+      background: #fff;
+      color: #5c0fe1 !important;
+      &:hover,
+      &:focus {
+        background: #efefef;
+      }
     }
   }
 `;
@@ -52,21 +83,25 @@ const LogoutButton = styled.span`
 const Header = props => (
   <SiteHeader staticTop componentClass={`nav`} role={`banner`}>
     <Navbar.Brand>
-      <NavLink to="/">Moving Buddy</NavLink>
+      <LogoLink activeClassName={`active`} to="/">
+        Moving Buddy
+      </LogoLink>
     </Navbar.Brand>
     <Navigation pullRight role={`navigation`}>
       {props.authed && (
-        <NavItem>
-          <NavLink to="/boxes">Boxes</NavLink>
-        </NavItem>
+        <MenuItem>
+          <MenuLink activeClassName={`active`} to="/boxes">
+            Boxes
+          </MenuLink>
+        </MenuItem>
       )}
-      <NavItem>
+      <MenuItem>
         {props.authed ? (
           <LogoutButton onClick={props.logout}>Logout</LogoutButton>
         ) : (
-          <NavLink to="/login">Login</NavLink>
+          <MenuLink to="/login">Login</MenuLink>
         )}
-      </NavItem>
+      </MenuItem>
     </Navigation>
   </SiteHeader>
 );
