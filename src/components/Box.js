@@ -6,6 +6,7 @@ import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import { faBoxCheck, faBoxOpen } from "@fortawesome/fontawesome-pro-light";
 
 const Container = styled.div`
+  background: #fff;
   display: flex;
   flex-wrap: wrap;
   max-width: 800px;

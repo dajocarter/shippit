@@ -11,6 +11,7 @@ import {
 } from "react-bootstrap";
 
 const Container = styled.div`
+  background: #fff;
   display: flex;
   justify-content: flex-start;
   align-items: center;

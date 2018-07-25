@@ -74,7 +74,7 @@ export default class App extends Component {
       <Loading />
     ) : (
       <BrowserRouter>
-        <div>
+        <div style={{ backgroundColor: `#efefef` }}>
           <Header authed={this.state.authed} logout={this.logout} />
           <Grid>
             <Row>

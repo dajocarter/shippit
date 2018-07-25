@@ -9,6 +9,7 @@ import {
 } from "@fortawesome/fontawesome-pro-light";
 
 const Box = styled.div`
+  background: #fff;
   max-width: 800px;
   margin: 2rem auto;
   padding: 1rem;
