@@ -1,6 +1,6 @@
 # Shippit
 
-Shippit is a React app to help people keep track of their items when moving. For every box you use, create a box by naming it, entering in the dimensions, and saving a picture of it. You can then add items to a box with a name, description, and image. There's a search function you can use to find which box contains a specific item. The app will also keep track of the number boxes and items in your move as well as the total cubic feet of all your boxes.
+Shippit is a React app to help people keep track of their items when moving. For every box in your move, create a box in the app by naming it, entering in the dimensions, and saving a picture of it. You can then add items to a box with a name, description, and image. There's a search function you can use to find which box contains a specific item. The app will also keep track of the number boxes and items in your move as well as the total cubic feet of all your boxes.
 
 ## Setup
 
@@ -28,3 +28,20 @@ You'll then need to create a `.npmrc` file in order to download FA5 Pro
 I replaced `${NPM_TOKEN}` with the actual token string in development, but you must leave like it this to deploy on Netlify.
 
 After that, `yarn install` and you're good to go.
+
+## User Stories
+
+As a user, I want to...
+
+- [x] add Boxes
+- [ ] edit Boxes
+- [x] delete boxes
+- [ ] save a picture of my box
+- [x] add Items
+- [x] edit Items
+- [x] delete Items
+- [ ] save a picture of my item
+- [ ] search for Items
+- [ ] add another user to my move
+- [ ] join another user's move
+- [ ] share my moving stats
