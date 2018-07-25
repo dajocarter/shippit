@@ -60,7 +60,7 @@ export default class ResetPassword extends Component {
   render() {
     return (
       <Col sm={6} smOffset={3}>
-        <h1>Shippit</h1>
+        <h1>Moving Buddy</h1>
         <p>
           Please enter your email address. You will receive a link to create a
           new password via email.

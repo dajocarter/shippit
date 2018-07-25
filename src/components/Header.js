@@ -52,7 +52,7 @@ const LogoutButton = styled.span`
 const Header = props => (
   <SiteHeader staticTop componentClass={`nav`} role={`banner`}>
     <Navbar.Brand>
-      <NavLink to="/">Shippit</NavLink>
+      <NavLink to="/">Moving Buddy</NavLink>
     </Navbar.Brand>
     <Navigation pullRight role={`navigation`}>
       {props.authed && (

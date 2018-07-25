@@ -1,6 +1,6 @@
-# Shippit
+# Moving Buddy
 
-Shippit is a React app to help people keep track of their items when moving. For every box in your move, create a box in the app by naming it, entering in the dimensions, and saving a picture of it. You can then add items to a box with a name, description, and image. There's a search function you can use to find which box contains a specific item. The app will also keep track of the number boxes and items in your move as well as the total cubic feet of all your boxes.
+Moving Buddy is a React app to help people keep track of their items when moving. For every box in your move, create a box in the app by naming it, entering in the dimensions, and saving a picture of it. You can then add items to a box with a name, description, and image. There's a search function you can use to find which box contains a specific item. The app will also keep track of the number boxes and items in your move as well as the total cubic feet of all your boxes.
 
 ## Setup
 
