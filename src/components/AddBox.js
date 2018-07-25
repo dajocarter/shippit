@@ -40,6 +40,18 @@ const Form = styled.form`
   width: 100%;
 `;
 
+const SubmitButton = styled(Button)`
+  border-color: #4cae4c;
+  color: #5cb85c;
+  transition: all 0.25s ease;
+
+  &:hover,
+  &:focus {
+    color: #fff;
+    background-color: #5cb85c;
+  }
+`;
+
 const INITIAL_STATE = { name: "", height: 0, length: 0, width: 0 };
 
 export default class AddBox extends Component {
@@ -134,9 +146,9 @@ export default class AddBox extends Component {
             </Row>
             <Row>
               <Col xs={6} xsOffset={3}>
-                <Button type="submit" bsStyle="success" block>
+                <SubmitButton type="submit" block>
                   Submit
-                </Button>
+                </SubmitButton>
               </Col>
             </Row>
           </Form>

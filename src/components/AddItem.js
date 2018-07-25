@@ -23,6 +23,15 @@ const Input = styled(FormControl)`
 
 const SubmitButton = styled(Button)`
   margin-left: 1rem;
+  border-color: #4cae4c;
+  color: #5cb85c;
+  transition: all 0.25s ease;
+
+  &:hover,
+  &:focus {
+    color: #fff;
+    background-color: #5cb85c;
+  }
 `;
 
 const INITIAL_STATE = { name: "" };
@@ -63,9 +72,7 @@ export default class AddItem extends Component {
             value={this.state.name}
           />
         </InputWrapper>
-        <SubmitButton type="submit" bsStyle="success">
-          Add Item
-        </SubmitButton>
+        <SubmitButton type="submit">Add Item</SubmitButton>
       </InlineForm>
     );
   }
