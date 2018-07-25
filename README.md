@@ -61,3 +61,4 @@ As the developer, I want to...
 - [ ] style the login page
 - [ ] style the registration page
 - [ ] slide items down underneath box
+- [ ] allow `esc` button to cancel edit form
