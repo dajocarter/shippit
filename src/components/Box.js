@@ -1,9 +1,13 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import { faBoxCheck, faBoxOpen } from "@fortawesome/fontawesome-pro-light";
+import {
+  faBoxCheck,
+  faBoxOpen,
+  faEdit
+} from "@fortawesome/fontawesome-pro-light";
 
 const Container = styled.div`
   background: #fff;
@@ -54,6 +58,13 @@ const BoxInfo = styled.div`
 
 const BoxTitle = styled.h3`
   margin-top: 0;
+`;
+
+const EditIcon = styled(FontAwesomeIcon)`
+  cursor: pointer;
+  font-size: 1.75rem;
+  color: #2e6da4;
+  margin-left: 1rem;
 `;
 
 const BoxDetails = styled.p``;
@@ -134,87 +145,101 @@ const ActionLink = styled(Link)`
   }
 `;
 
-const Box = props => {
-  let numItems = 0;
-  if (props.items) {
-    const boxItems = Array.from(props.items).filter(
-      item => item.box === props.box.key
+export default class Box extends Component {
+  static propTypes = {
+    deleteBox: PropTypes.func,
+    box: PropTypes.shape({
+      closed: PropTypes.bool.isRequired,
+      height: PropTypes.number.isRequired,
+      key: PropTypes.string.isRequired,
+      length: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      width: PropTypes.number.isRequired
+    }),
+    items: PropTypes.arrayOf(PropTypes.object),
+    showingItems: PropTypes.bool.isRequired,
+    toggleBoxStatus: PropTypes.func
+  };
+
+  state = { editName: false };
+
+  countItems() {
+    const boxItems = Array.from(this.props.items).filter(
+      item => item.box === this.props.box.key
     );
-    numItems = boxItems.length;
+    return boxItems.length;
   }
 
-  const { box = {} } = props;
-
-  return (
-    <Container showingItems={props.showingItems}>
-      <BoxContent>
-        <BoxImage>
-          <FAicon
-            icon={box.closed ? faBoxCheck : faBoxOpen}
-            color={box.closed ? `green` : `blue`}
-          />
-        </BoxImage>
-        <BoxInfo>
-          <BoxTitle>{box.name}</BoxTitle>
-          <BoxDetails>
-            <Detail>{box.height}"</Detail> H x <Detail>{box.width}"</Detail> W x{" "}
-            <Detail>{box.length}"</Detail> L
-          </BoxDetails>
-          <BoxDetails>
-            <Detail>{numItems}</Detail> items
-          </BoxDetails>
-        </BoxInfo>
-      </BoxContent>
-      {box.key &&
-        !props.showingItems && (
-          <BoxContent>
-            {box.closed ? (
-              <BoxActions>
-                <Action
-                  onClick={() => props.toggleBoxStatus(box.key, false)}
-                  color={`blue`}
-                >
-                  Open Box
-                </Action>
-                <Action onClick={() => props.deleteBox(box.key)} color={`red`}>
-                  Delete Box
-                </Action>
-              </BoxActions>
-            ) : (
-              <BoxActions>
-                <Action
-                  onClick={() => props.toggleBoxStatus(box.key, true)}
-                  color={`green`}
-                >
-                  Close Box
-                </Action>
-                <ActionLink to={`boxes/${box.key}`} color={`blue`}>
-                  Edit Items
-                </ActionLink>
-                <Action onClick={() => props.deleteBox(box.key)} color={`red`}>
-                  Delete Box
-                </Action>
-              </BoxActions>
+  render() {
+    const { box = {} } = this.props;
+    return (
+      <Container showingItems={this.props.showingItems}>
+        <BoxContent>
+          <BoxImage>
+            <FAicon
+              icon={box.closed ? faBoxCheck : faBoxOpen}
+              color={box.closed ? `green` : `blue`}
+            />
+          </BoxImage>
+          <BoxInfo>
+            <BoxTitle>
+              {box.name}{" "}
+              <EditIcon
+                icon={faEdit}
+                onClick={() => this.setState({ editName: true })}
+              />
+            </BoxTitle>
+            <BoxDetails>
+              <Detail>{box.height}"</Detail> H x <Detail>{box.width}"</Detail> W
+              x <Detail>{box.length}"</Detail> L
+            </BoxDetails>
+            {this.props.items && (
+              <BoxDetails>
+                <Detail>{this.countItems()}</Detail> items
+              </BoxDetails>
             )}
-          </BoxContent>
-        )}
-    </Container>
-  );
-};
-
-export default Box;
-
-Box.propTypes = {
-  deleteBox: PropTypes.func,
-  box: PropTypes.shape({
-    closed: PropTypes.bool.isRequired,
-    height: PropTypes.number.isRequired,
-    key: PropTypes.string.isRequired,
-    length: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    width: PropTypes.number.isRequired
-  }),
-  items: PropTypes.arrayOf(PropTypes.object),
-  showingItems: PropTypes.bool.isRequired,
-  toggleBoxStatus: PropTypes.func
-};
+          </BoxInfo>
+        </BoxContent>
+        {box.key &&
+          !this.props.showingItems && (
+            <BoxContent>
+              {box.closed ? (
+                <BoxActions>
+                  <Action
+                    onClick={() => this.props.toggleBoxStatus(box.key, false)}
+                    color={`blue`}
+                  >
+                    Open Box
+                  </Action>
+                  <Action
+                    onClick={() => this.props.deleteBox(box.key)}
+                    color={`red`}
+                  >
+                    Delete Box
+                  </Action>
+                </BoxActions>
+              ) : (
+                <BoxActions>
+                  <Action
+                    onClick={() => this.props.toggleBoxStatus(box.key, true)}
+                    color={`green`}
+                  >
+                    Close Box
+                  </Action>
+                  <ActionLink to={`boxes/${box.key}`} color={`blue`}>
+                    Edit Items
+                  </ActionLink>
+                  <Action
+                    onClick={() => this.props.deleteBox(box.key)}
+                    color={`red`}
+                  >
+                    Delete Box
+                  </Action>
+                </BoxActions>
+              )}
+            </BoxContent>
+          )}
+      </Container>
+    );
+  }
+}
