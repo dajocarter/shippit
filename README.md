@@ -45,3 +45,19 @@ As a user, I want to...
 - [ ] add another user to my move
 - [ ] join another user's move
 - [ ] share my moving stats
+
+## Developer Stories
+
+As the developer, I want to...
+
+- [ ] animate adding a new box
+- [ ] animate deleting a box
+- [ ] animate adding a new item
+- [ ] animate deleting an item
+- [ ] add Facebook meta tags
+- [ ] add Twitter meta tags
+- [ ] update title tag
+- [ ] create a marketing page at /
+- [ ] style the login page
+- [ ] style the registration page
+- [ ] slide items down underneath box
