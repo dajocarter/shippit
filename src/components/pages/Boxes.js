@@ -14,6 +14,7 @@ export default class Boxes extends Component {
 
     this.addBox = this.addBox.bind(this);
     this.toggleBoxStatus = this.toggleBoxStatus.bind(this);
+    this.editBoxName = this.editBoxName.bind(this);
     this.deleteBox = this.deleteBox.bind(this);
   }
 
@@ -76,6 +77,11 @@ export default class Boxes extends Component {
     db.child(`${this.props.uid}/${boxKey}`).update({ closed: status });
   }
 
+  editBoxName(boxKey, name) {
+    const db = database().ref(`boxes`);
+    db.child(`${this.props.uid}/${boxKey}`).update({ name });
+  }
+
   deleteBox(boxKey) {
     const db = database().ref(`boxes`);
     db.child(`${this.props.uid}/${boxKey}`).remove();
@@ -101,6 +107,7 @@ export default class Boxes extends Component {
                 items={items}
                 showingItems={false}
                 toggleBoxStatus={this.toggleBoxStatus}
+                editBoxName={this.editBoxName}
                 deleteBox={this.deleteBox}
               />
             ))}

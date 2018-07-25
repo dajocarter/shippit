@@ -9,6 +9,8 @@ import {
   faEdit
 } from "@fortawesome/fontawesome-pro-light";
 
+import EditBoxName from "./EditBoxName";
+
 const Container = styled.div`
   background: #fff;
   display: flex;
@@ -146,6 +148,13 @@ const ActionLink = styled(Link)`
 `;
 
 export default class Box extends Component {
+  constructor(props) {
+    super(props);
+
+    this.countItems = this.countItems.bind(this);
+    this.toggleEdit = this.toggleEdit.bind(this);
+  }
+
   static propTypes = {
     deleteBox: PropTypes.func,
     box: PropTypes.shape({
@@ -161,13 +170,19 @@ export default class Box extends Component {
     toggleBoxStatus: PropTypes.func
   };
 
-  state = { editName: false };
+  state = { editBoxName: false };
 
   countItems() {
     const boxItems = Array.from(this.props.items).filter(
       item => item.box === this.props.box.key
     );
     return boxItems.length;
+  }
+
+  toggleEdit(prop) {
+    this.setState(prevState => ({
+      [prop]: !prevState[prop]
+    }));
   }
 
   render() {
@@ -182,13 +197,21 @@ export default class Box extends Component {
             />
           </BoxImage>
           <BoxInfo>
-            <BoxTitle>
-              {box.name}{" "}
-              <EditIcon
-                icon={faEdit}
-                onClick={() => this.setState({ editName: true })}
+            {this.state.editBoxName ? (
+              <EditBoxName
+                box={box}
+                editBoxName={this.props.editBoxName}
+                toggleEdit={this.toggleEdit}
               />
-            </BoxTitle>
+            ) : (
+              <BoxTitle>
+                {box.name}{" "}
+                <EditIcon
+                  icon={faEdit}
+                  onClick={() => this.setState({ editBoxName: true })}
+                />
+              </BoxTitle>
+            )}
             <BoxDetails>
               <Detail>{box.height}"</Detail> H x <Detail>{box.width}"</Detail> W
               x <Detail>{box.length}"</Detail> L

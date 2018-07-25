@@ -34,7 +34,7 @@ After that, `yarn install` and you're good to go.
 As a user, I want to...
 
 - [x] add Boxes
-- [ ] edit Boxes
+- [x] edit Boxes
 - [x] delete boxes
 - [ ] save a picture of my box
 - [x] add Items
